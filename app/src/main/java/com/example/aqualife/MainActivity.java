@@ -29,7 +29,7 @@ import com.example.aqualife.function.AvatarUploader;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION = 100;
-    private static final String FIVEMANAGE_API_TOKEN = "72tWDks9mNkmH40xsIaiklh1CeoOxu18";
+    private static final String FIVEMANAGE_API_TOKEN = "J1Q0kKgpr52PYV4GNpfOZJ783ys4dNMM";
     private static final String PREFS_NAME = "AquaLifePrefs";
     private static final String AVATAR_URL_KEY = "avatar_url";
     private static final String TAG = "MainActivity";
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user_profile);
 
         initViews();
         setupImageUploader();
@@ -108,30 +108,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showImagePreview(Uri imageUri) {
-        Log.d(TAG, "Showing image preview for URI: " + imageUri);
         // Hiển thị ảnh đã chọn ở avatarView với dạng hình tròn
         Glide.with(this)
                 .load(imageUri)
                 .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.circle_background)
                 .error(R.drawable.circle_background)
-                .listener(new com.bumptech.glide.request.RequestListener<android.graphics.drawable.Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(com.bumptech.glide.load.engine.GlideException e, Object model,
-                                                com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target,
-                                                boolean isFirstResource) {
-                        Log.e(TAG, "Failed to load preview image from URI: " + imageUri, e);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(android.graphics.drawable.Drawable resource, Object model,
-                                                   com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target,
-                                                   com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
-                        Log.d(TAG, "Preview image loaded successfully from: " + dataSource);
-                        return false;
-                    }
-                })
                 .into(avatarView);
     }
 
@@ -195,37 +177,20 @@ public class MainActivity extends AppCompatActivity {
         // Load avatar URL đã lưu từ SharedPreferences
         currentAvatarUrl = sharedPreferences.getString(AVATAR_URL_KEY, "");
 
-        Log.d(TAG, "Loading saved avatar. Current URL: '" + currentAvatarUrl + "'");
-
         if (!currentAvatarUrl.isEmpty()) {
-            Log.d(TAG, "Found saved avatar URL, loading...");
+            Log.d(TAG, "Loading saved avatar: " + currentAvatarUrl);
             loadAvatarFromUrl(currentAvatarUrl);
         } else {
-            Log.d(TAG, "No saved avatar found, using default placeholder");
+            Log.d(TAG, "No saved avatar found, using default");
             avatarView.setImageResource(R.drawable.circle_background);
         }
-
-        // Test: Load một ảnh mẫu để kiểm tra Glide hoạt động
-        testGlideWithSampleImage();
-    }
-
-    private void testGlideWithSampleImage() {
-        // Test load một ảnh online để xem Glide có hoạt động không
-        String testUrl = "https://via.placeholder.com/150x150/FF0000/FFFFFF?text=TEST";
-        Log.d(TAG, "Testing Glide with sample image: " + testUrl);
-
-        // Uncomment dòng dưới để test Glide
-        // loadAvatarFromUrl(testUrl);
     }
 
     private void loadAvatarFromUrl(String imageUrl) {
         if (imageUrl == null || imageUrl.isEmpty()) {
-            Log.d(TAG, "Image URL is null or empty, using placeholder");
             avatarView.setImageResource(R.drawable.circle_background);
             return;
         }
-
-        Log.d(TAG, "Starting to load avatar from URL: " + imageUrl);
 
         // Sử dụng Glide để load ảnh từ URL với các tối ưu hóa
         Glide.with(this)
@@ -237,27 +202,9 @@ public class MainActivity extends AppCompatActivity {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 // Thêm timeout và retry
                 .timeout(10000) // 10 seconds timeout
-                .listener(new com.bumptech.glide.request.RequestListener<android.graphics.drawable.Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(com.bumptech.glide.load.engine.GlideException e, Object model,
-                                                com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target,
-                                                boolean isFirstResource) {
-                        Log.e(TAG, "Glide load failed for URL: " + imageUrl, e);
-                        runOnUiThread(() -> {
-                            Toast.makeText(MainActivity.this, "Không thể tải ảnh avatar", Toast.LENGTH_SHORT).show();
-                        });
-                        return false; // Return false để Glide vẫn set error drawable
-                    }
-
-                    @Override
-                    public boolean onResourceReady(android.graphics.drawable.Drawable resource, Object model,
-                                                   com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target,
-                                                   com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
-                        Log.d(TAG, "Glide successfully loaded avatar from: " + dataSource);
-                        return false; // Return false để Glide vẫn set image vào ImageView
-                    }
-                })
                 .into(avatarView);
+
+        Log.d(TAG, "Loading avatar from URL: " + imageUrl);
     }
 
     private void saveAvatarUrl(String imageUrl) {
