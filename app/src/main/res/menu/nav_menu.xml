@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home_menu_icon"
+            android:title="Home"
+            android:titleCondensed="Home"/>
+
+        <item
+            android:id="@+id/nav_fish"
+            android:icon="@drawable/fish_menu_icon"
+            android:title="Fish For You"
+            android:titleCondensed="Fish"/>
+
+        <item
+            android:id="@+id/nav_tank"
+            android:icon="@drawable/tank_menu_icon"
+            android:title="Tanks"
+            android:titleCondensed="Tanks"/>
+
+        <item
+            android:id="@+id/nav_medicine"
+            android:icon="@drawable/medicine_menu_icon"
+            android:title="Medicine"
+            android:titleCondensed="Medicine"/>
+
+        <item
+            android:id="@+id/nav_food"
+            android:icon="@drawable/food_menu_icon"
+            android:title="Food"
+            android:titleCondensed="Food"/>
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/about_us_menu_icon"
+            android:title="About Us"
+            android:titleCondensed="About"/>
+    </group>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/log_out_icon_menu"
+                android:title="Logout"
+                android:titleCondensed="Logout"/>
+        </menu>
+    </item>
+
+</menu>
