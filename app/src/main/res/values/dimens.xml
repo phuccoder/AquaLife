@@ -1,0 +1,9 @@
+<resources>
+    <!-- Kích thước header của Navigation Drawer -->
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+
+    <!-- Các giá trị margin mặc định -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+</resources>

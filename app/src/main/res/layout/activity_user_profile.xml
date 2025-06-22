@@ -42,7 +42,7 @@
                     android:id="@+id/btnSelectImage"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
-                    android:text="Change Photo"
+                    android:text="Thay Avatar"
                     android:textSize="12sp"
                     android:textColor="@color/white"
                     app:backgroundTint="@color/main_blue"
@@ -88,7 +88,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Personal Information"
+                        android:text="Thông tin cá nhân"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/main_blue" />
@@ -127,7 +127,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Full Name"
+                            android:text="Họ và tên"
                             android:textSize="12sp"
                             android:textColor="@color/main_blue"
                             android:alpha="0.7" />
@@ -170,7 +170,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Email Address"
+                            android:text="Email"
                             android:textSize="12sp"
                             android:textColor="@color/main_blue"
                             android:alpha="0.7" />
@@ -213,7 +213,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Phone Number"
+                            android:text="Số điện thoại"
                             android:textSize="12sp"
                             android:textColor="@color/main_blue"
                             android:alpha="0.7" />
@@ -256,7 +256,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Address"
+                            android:text="Địa chỉ"
                             android:textSize="12sp"
                             android:textColor="@color/main_blue"
                             android:alpha="0.7" />
@@ -311,7 +311,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Quick Actions"
+                        android:text="Thao tác"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/main_green" />
@@ -332,7 +332,7 @@
                         android:layout_height="56dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
-                        android:text="Edit Info"
+                        android:text="Cập nhật"
                         android:textColor="@color/white"
                         app:backgroundTint="@color/main_blue"
                         app:cornerRadius="12dp"
@@ -346,7 +346,7 @@
                         android:layout_height="56dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
-                        android:text="Save Changes"
+                        android:text="Lưu thay đổi"
                         android:textColor="@color/main_green"
                         app:backgroundTint="@android:color/transparent"
                         app:strokeColor="@color/main_green"

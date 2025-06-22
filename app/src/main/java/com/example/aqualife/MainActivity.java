@@ -1,242 +1,189 @@
 package com.example.aqualife;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.aqualife.function.AvatarUploader;
+import com.example.aqualife.function.uploadAvatar.AvatarManager;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.aqualife.databinding.ActivityMainBinding;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int REQUEST_PERMISSION = 100;
-    private static final String FIVEMANAGE_API_TOKEN = "J1Q0kKgpr52PYV4GNpfOZJ783ys4dNMM";
-    private static final String PREFS_NAME = "AquaLifePrefs";
-    private static final String AVATAR_URL_KEY = "avatar_url";
-    private static final String TAG = "MainActivity";
 
-    private Button btnSelectImage, btnUpload;
-    private ImageView avatarView;
-    private ProgressBar progressBar;
-    private Uri selectedImageUri;
-    private AvatarUploader avatarUploader;
-    private String currentAvatarUrl = ""; // Lưu URL avatar hiện tại
-    private SharedPreferences sharedPreferences;
-
-    private ActivityResultLauncher<Intent> imagePickerLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        selectedImageUri = result.getData().getData();
-
-                        // Hiển thị ảnh đã chọn trực tiếp ở avatarView để preview
-                        showImagePreview(selectedImageUri);
-
-                        btnUpload.setEnabled(true);
-                    }
-                }
-            }
-    );
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle drawerToggle;
+    private NavController navController;
+    private ActivityMainBinding binding;
+    private AppBarConfiguration appBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        initViews();
-        setupImageUploader();
-        setupSharedPreferences();
-        checkPermissions();
-
-        // Load avatar đã lưu trước đó
-        loadSavedAvatar();
+        setupToolbar();
+        setupNavigation();
+        setupDrawer();
     }
 
-    private void initViews() {
-        btnSelectImage = findViewById(R.id.btnSelectImage);
-        btnUpload = findViewById(R.id.btnUpload);
-        avatarView = findViewById(R.id.avatarView);
-        progressBar = findViewById(R.id.progressBar);
+    private void setupToolbar() {
+        Toolbar toolbar = new Toolbar(this);
+        setSupportActionBar(toolbar);
 
-        btnSelectImage.setOnClickListener(v -> selectImage());
-        btnUpload.setOnClickListener(v -> uploadImage());
-        btnUpload.setEnabled(false);
-    }
-
-    private void setupImageUploader() {
-        avatarUploader = new AvatarUploader(FIVEMANAGE_API_TOKEN);
-    }
-
-    private void setupSharedPreferences() {
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-    }
-
-    private void checkPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_PERMISSION);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
         }
     }
 
-    private void selectImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        imagePickerLauncher.launch(intent);
-    }
+    private void setupNavigation() {
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment_activity_main);
 
-    private void showImagePreview(Uri imageUri) {
-        // Hiển thị ảnh đã chọn ở avatarView với dạng hình tròn
-        Glide.with(this)
-                .load(imageUri)
-                .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.circle_background)
-                .error(R.drawable.circle_background)
-                .into(avatarView);
-    }
+        navController = navHostFragment.getNavController();
 
-    private void uploadImage() {
-        if (selectedImageUri == null) {
-            Toast.makeText(this, "Vui lòng chọn ảnh trước bạn nhé!", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home,
+                R.id.navigation_order,
+                R.id.navigation_profile,
+                R.id.navigation_shopping_cart)
+                .setOpenableLayout(binding.drawerLayout)
+                .build();
 
-        progressBar.setVisibility(View.VISIBLE);
-        btnUpload.setEnabled(false);
-
-        avatarUploader.uploadImage(this, selectedImageUri, new AvatarUploader.UploadCallback() {
-            @Override
-            public void onSuccess(String imageUrl) {
-                runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    btnUpload.setEnabled(true);
-
-                    Log.d(TAG, "Upload thành công với URL: " + imageUrl);
-                    Toast.makeText(MainActivity.this,
-                            "Upload thành công!",
-                            Toast.LENGTH_SHORT).show();
-
-                    // Lưu URL avatar mới vào SharedPreferences
-                    saveAvatarUrl(imageUrl);
-                    currentAvatarUrl = imageUrl;
-
-                    // Load ảnh từ URL để hiển thị (thay vì preview từ URI)
-                    loadAvatarFromUrl(imageUrl);
-
-                    // Reset selected image URI
-                    selectedImageUri = null;
-                });
+        binding.navView.setOnItemSelectedListener(item -> {
+            while (navController.popBackStack()) {
             }
 
-            @Override
-            public void onError(String error) {
-                runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    btnUpload.setEnabled(true);
-
-                    Log.e(TAG, "Upload thất bại: " + error);
-                    Toast.makeText(MainActivity.this,
-                            "Upload thất bại: " + error,
-                            Toast.LENGTH_LONG).show();
-
-                    // Nếu upload thất bại, load lại avatar cũ nếu có
-                    if (!currentAvatarUrl.isEmpty()) {
-                        loadAvatarFromUrl(currentAvatarUrl);
-                    } else {
-                        // Hoặc hiển thị placeholder mặc định
-                        avatarView.setImageResource(R.drawable.circle_background);
-                    }
-                });
-            }
+            navController.navigate(item.getItemId());
+            return true;
         });
     }
 
-    private void loadSavedAvatar() {
-        // Load avatar URL đã lưu từ SharedPreferences
-        currentAvatarUrl = sharedPreferences.getString(AVATAR_URL_KEY, "");
+    private void setupDrawer() {
+        drawerToggle = new ActionBarDrawerToggle(
+                this,
+                binding.drawerLayout,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
 
-        if (!currentAvatarUrl.isEmpty()) {
-            Log.d(TAG, "Loading saved avatar: " + currentAvatarUrl);
-            loadAvatarFromUrl(currentAvatarUrl);
-        } else {
-            Log.d(TAG, "No saved avatar found, using default");
-            avatarView.setImageResource(R.drawable.circle_background);
-        }
+        binding.drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
+        binding.navViewDrawer.setNavigationItemSelectedListener(item -> {
+            handleNavigationItemSelected(item);
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        });
     }
 
-    private void loadAvatarFromUrl(String imageUrl) {
-        if (imageUrl == null || imageUrl.isEmpty()) {
-            avatarView.setImageResource(R.drawable.circle_background);
+    private void handleNavigationItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        int targetFragmentId = R.id.navigation_home; // default
+
+        // Map drawer items to fragments
+        if (itemId == R.id.nav_home) {
+            targetFragmentId = R.id.navigation_home;
+        } else if (itemId == R.id.nav_fish || itemId == R.id.nav_tank) {
+            targetFragmentId = R.id.navigation_shopping_cart;
+        } else if (itemId == R.id.nav_medicine) {
+            targetFragmentId = R.id.navigation_home;
+        } else if (itemId == R.id.nav_food) {
+            targetFragmentId = R.id.navigation_order;
+        } else if (itemId == R.id.nav_about) {
+            targetFragmentId = R.id.navigation_profile;
+        } else if (itemId == R.id.nav_logout) {
+            handleLogout();
             return;
         }
 
-        // Sử dụng Glide để load ảnh từ URL với các tối ưu hóa
-        Glide.with(this)
-                .load(imageUrl)
-                .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.circle_background)
-                .error(R.drawable.circle_background)
-                // Thêm cache strategy để load nhanh hơn
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                // Thêm timeout và retry
-                .timeout(10000) // 10 seconds timeout
-                .into(avatarView);
+        while (navController.popBackStack()) {
+        }
 
-        Log.d(TAG, "Loading avatar from URL: " + imageUrl);
+        navController.navigate(targetFragmentId);
+        
+        binding.navView.setSelectedItemId(targetFragmentId);
     }
 
-    private void saveAvatarUrl(String imageUrl) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(AVATAR_URL_KEY, imageUrl);
-        editor.apply();
-        Log.d(TAG, "Avatar URL saved: " + imageUrl);
+    private void handleLogout() {
+        new AlertDialog.Builder(this)
+                .setTitle("Đăng xuất")
+                .setMessage("Bạn có chắc chắn muốn đăng xuất?")
+                .setPositiveButton("Đăng xuất", (dialog, which) -> {
+                    clearUserSession();
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
     }
 
-    private void clearSavedAvatar() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(AVATAR_URL_KEY);
-        editor.apply();
-        currentAvatarUrl = "";
-        avatarView.setImageResource(R.drawable.circle_background);
-        Log.d(TAG, "Avatar cleared");
+    private void clearUserSession() {
+        SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+        prefs.edit().clear().apply();
+    }
+
+    public void openNavigationDrawer() {
+        if (binding.drawerLayout != null) {
+            binding.drawerLayout.openDrawer(GravityCompat.START);
+        }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Cần cấp quyền để chọn ảnh", Toast.LENGTH_SHORT).show();
+    public void onBackPressed() {
+        if (binding.drawerLayout != null && binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            if (!navController.popBackStack()) {
+                super.onBackPressed();
             }
         }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Clear Glide memory cache khi activity bị destroy
-        Glide.get(this).clearMemory();
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if (drawerToggle != null) {
+            drawerToggle.syncState();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (drawerToggle != null) {
+            drawerToggle.onConfigurationChanged(newConfig);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 }

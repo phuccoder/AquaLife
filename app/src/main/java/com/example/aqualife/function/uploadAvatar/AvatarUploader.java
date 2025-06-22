@@ -1,4 +1,4 @@
-package com.example.aqualife.function;
+package com.example.aqualife.function.uploadAvatar;
 
 import android.content.Context;
 import android.net.Uri;

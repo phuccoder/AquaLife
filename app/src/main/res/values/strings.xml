@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AquaLife</string>
+    <string name="title_home">Home</string>
+    <string name="title_cart">Shopping Cart</string>
+    <string name="title_order">Order</string>
+    <string name="title_profile">Profile</string>
+    <string name="navigation_drawer_open">Mở menu</string>
+    <string name="navigation_drawer_close">Đóng menu</string>
 </resources>
