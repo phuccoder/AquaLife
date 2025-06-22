@@ -10,37 +10,37 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/home_menu_icon"
-            android:title="Home"
+            android:title="Trang chủ"
             android:titleCondensed="Home"/>
 
         <item
             android:id="@+id/nav_fish"
             android:icon="@drawable/fish_menu_icon"
-            android:title="Fish For You"
+            android:title="Cá dành cho bạn"
             android:titleCondensed="Fish"/>
 
         <item
             android:id="@+id/nav_tank"
             android:icon="@drawable/tank_menu_icon"
-            android:title="Tanks"
+            android:title="Bể cá"
             android:titleCondensed="Tanks"/>
 
         <item
             android:id="@+id/nav_medicine"
             android:icon="@drawable/medicine_menu_icon"
-            android:title="Medicine"
+            android:title="Thuốc cho cá của bạn"
             android:titleCondensed="Medicine"/>
 
         <item
             android:id="@+id/nav_food"
             android:icon="@drawable/food_menu_icon"
-            android:title="Food"
+            android:title="Thức ăn cho cá"
             android:titleCondensed="Food"/>
 
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/about_us_menu_icon"
-            android:title="About Us"
+            android:title="Thông tin về AquaLife"
             android:titleCondensed="About"/>
     </group>
 
@@ -49,7 +49,7 @@
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/log_out_icon_menu"
-                android:title="Logout"
+                android:title="Đăng xuất"
                 android:titleCondensed="Logout"/>
         </menu>
     </item>
