@@ -6,7 +6,7 @@
     android:padding="24dp">
 
     <LinearLayout
-        android:id="@+id/registerForm"
+        android:id="@+id/registerInformationForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -21,7 +21,7 @@
 
         <!-- Logo -->
         <ImageView
-            android:id="@+id/ivLogo"
+            android:id="@+id/ivLogoRG"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/logo"
@@ -29,7 +29,7 @@
 
         <!-- Title -->
         <TextView
-            android:id="@+id/tvRegisterTitle"
+            android:id="@+id/tvRegisterTitleInformation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Đăng ký"
@@ -42,18 +42,38 @@
             android:id="@+id/tvVerifySubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bạn vui lòng nhập số điện thoại của mình"
+            android:text="Còn vài bước nữa thôi nè"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_marginBottom="24dp" />
 
         <EditText
-            android:id="@+id/etRegisterPhone"
+            android:id="@+id/etRegisterName"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Số điện thoại"
-            android:inputType="phone"
+            android:hint="Học và tên"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            android:background="@android:drawable/editbox_background"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etRegisterEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:background="@android:drawable/editbox_background"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etRegisterPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
             android:padding="12dp"
             android:background="@android:drawable/editbox_background"
             android:layout_marginBottom="16dp" />
@@ -63,7 +83,7 @@
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Xác nhận số điện thoại"
+            android:text="Đăng ký"
             android:textColor="@color/white"
             android:backgroundTint="@color/main_green"
             android:layout_marginBottom="20dp" />

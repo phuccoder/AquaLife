@@ -3,7 +3,10 @@ package com.example.aqualife.ui.home;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -19,10 +22,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.aqualife.LoginActivity;
 import com.example.aqualife.MainActivity;
 import com.example.aqualife.R;
+import com.example.aqualife.adapter.BannerAdapter;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -33,6 +46,16 @@ public class HomeFragment extends Fragment {
     private ImageView closeSearchButton;
     private EditText searchEditText;
     private ScrollView mainScrollView;
+    private TextView loginTextView;
+
+    // Banner slider components
+    private ViewPager2 bannerViewPager;
+    private TabLayout bannerIndicator;
+    private List<Integer> bannerList;
+    private Handler sliderHandler = new Handler(Looper.getMainLooper());
+    private Runnable sliderRunnable;
+    private final long SLIDER_DELAY = 10000;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -42,8 +65,21 @@ public class HomeFragment extends Fragment {
         initializeViews();
         setupClickListeners();
         setupSearchFunctionality();
+        setupBannerSlider();
 
         return root;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sliderHandler.removeCallbacks(sliderRunnable);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sliderHandler.postDelayed(sliderRunnable, SLIDER_DELAY);
     }
 
     private void initializeViews() {
@@ -53,17 +89,81 @@ public class HomeFragment extends Fragment {
         closeSearchButton = root.findViewById(R.id.closeSearchButton);
         searchEditText = root.findViewById(R.id.searchEditText);
         mainScrollView = root.findViewById(R.id.mainScrollView);
+        loginTextView = root.findViewById(R.id.loginText);
+
+        // Initialize banner views
+        bannerViewPager = root.findViewById(R.id.bannerViewPager);
+        bannerIndicator = root.findViewById(R.id.bannerIndicator);
+    }
+
+    private void setupBannerSlider() {
+        // Initialize banner images
+        bannerList = new ArrayList<>();
+        bannerList.add(R.drawable.banner_1);
+        bannerList.add(R.drawable.banner_2);
+
+        // Set up banner adapter
+        BannerAdapter bannerAdapter = new BannerAdapter(requireContext(), bannerList);
+        bannerViewPager.setAdapter(bannerAdapter);
+
+        // Set up page transformer for animation
+        CompositePageTransformer transformer = new CompositePageTransformer();
+        transformer.addTransformer(new MarginPageTransformer(8));
+        transformer.addTransformer((page, position) -> {
+            float abs = Math.abs(position);
+            page.setScaleY(0.85f + (1 - abs) * 0.15f);
+        });
+
+        bannerViewPager.setPageTransformer(transformer);
+
+        // Connect with TabLayout indicator
+        new TabLayoutMediator(bannerIndicator, bannerViewPager,
+                (tab, position) -> {}).attach();
+
+        // Auto slide functionality
+        sliderRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (bannerViewPager == null) return;
+
+                int currentItem = bannerViewPager.getCurrentItem();
+                if (currentItem == bannerList.size() - 1) {
+                    // Go back to first slide when reached the end
+                    bannerViewPager.setCurrentItem(0);
+                } else {
+                    // Go to next slide
+                    bannerViewPager.setCurrentItem(currentItem + 1);
+                }
+
+                sliderHandler.postDelayed(this, SLIDER_DELAY);
+            }
+        };
+
+        // Start auto sliding
+        sliderHandler.postDelayed(sliderRunnable, SLIDER_DELAY);
+
+        // Stop auto sliding when user is manually scrolling
+        bannerViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                sliderHandler.removeCallbacks(sliderRunnable);
+                sliderHandler.postDelayed(sliderRunnable, SLIDER_DELAY);
+            }
+        });
     }
 
     private void setupClickListeners() {
-        // Search button click - show search bar
         searchButton.setOnClickListener(v -> showSearchBar());
 
-        // Close search button - hide search bar
         closeSearchButton.setOnClickListener(v -> hideSearchBar());
 
-        // Menu button click - open navigation drawer
         menuButton.setOnClickListener(v -> openNavigationMenu());
+
+        loginTextView.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void setupSearchFunctionality() {
@@ -139,9 +239,6 @@ public class HomeFragment extends Fragment {
             MainActivity mainActivity = (MainActivity) getActivity();
             mainActivity.openNavigationDrawer();
         }
-
-        // Alternative: Navigate to a navigation menu activity or fragment
-        // Navigation.findNavController(root).navigate(R.id.action_to_navigation_menu);
     }
 
     private void performSearch(String query) {
@@ -153,11 +250,6 @@ public class HomeFragment extends Fragment {
 
         // Filter items based on search query
         filterItems(query);
-
-        // You can also navigate to a dedicated search results page
-        // Bundle bundle = new Bundle();
-        // bundle.putString("search_query", query);
-        // Navigation.findNavController(root).navigate(R.id.action_to_search_results, bundle);
     }
 
     private void showAllItems() {

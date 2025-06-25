@@ -6,7 +6,6 @@
     android:padding="24dp">
 
     <LinearLayout
-        android:id="@+id/verifyOtpForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -43,15 +42,25 @@
             android:id="@+id/tvVerifySubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Anh vui lòng nhập mã OTP được gửi qua SMS đến số điện thoại"
+            android:text="Bạn vui lòng nhập mã OTP được gửi qua SMS đến số điện thoại"
             android:textSize="12sp"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp" />
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:text="0907.832.421"
+            android:textColor="@color/main_blue"
+            android:textSize="27sp"
+            android:textStyle="bold" />
 
         <!-- OTP Boxes -->
         <LinearLayout
-            android:id="@+id/otpBoxContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -60,27 +69,27 @@
 
             <!-- 6 OTP EditTexts -->
             <EditText
-                android:id="@+id/etOtp1"
+                android:id="@+id/otpBox1"
                 style="@style/OtpBoxStyle" />
 
             <EditText
-                android:id="@+id/etOtp2"
+                android:id="@+id/otpBox2"
                 style="@style/OtpBoxStyle" />
 
             <EditText
-                android:id="@+id/etOtp3"
+                android:id="@+id/otpBox3"
                 style="@style/OtpBoxStyle" />
 
             <EditText
-                android:id="@+id/etOtp4"
+                android:id="@+id/otpBox4"
                 style="@style/OtpBoxStyle" />
 
             <EditText
-                android:id="@+id/etOtp5"
+                android:id="@+id/otpBox5"
                 style="@style/OtpBoxStyle" />
 
             <EditText
-                android:id="@+id/etOtp6"
+                android:id="@+id/otpBox6"
                 style="@style/OtpBoxStyle" />
         </LinearLayout>
 
