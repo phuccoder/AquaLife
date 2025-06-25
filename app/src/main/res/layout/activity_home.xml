@@ -145,6 +145,7 @@
                                 android:gravity="center_vertical">
 
                                 <TextView
+                                    android:id="@+id/loginText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Đăng ký ngay"
@@ -330,14 +331,18 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/bannerIndicator"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="10dp"
                     android:layout_alignBottom="@id/bannerViewPager"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="8dp"
                     android:background="@android:color/transparent"
                     app:tabBackground="@drawable/tab_selector"
                     app:tabGravity="center"
-                    app:tabIndicatorHeight="0dp" />
+                    app:tabIndicatorHeight="0dp"
+                    app:tabPaddingStart="4dp"
+                    app:tabPaddingEnd="4dp"
+                    app:tabMinWidth="6dp"
+                    app:tabMaxWidth="6dp" />
             </RelativeLayout>
 
             <!-- Fish Section -->
@@ -347,7 +352,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:text="CÁC LOẠI CÁ KIỂNG"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -389,8 +394,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="CÁC LOẠI BỂ/HỒ CÁ KIỂNG"
-                android:textColor="@color/white"
+                android:text="CÁC LOẠI BỂ/HỒ"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -432,8 +437,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="CÁC LOẠI THỨC ĂN CHO CÁ KIỂNG"
-                android:textColor="@color/white"
+                android:text="CÁC LOẠI THỨC ĂN CHO CÁ"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -475,8 +480,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="CÁC LOẠI THUỐC CHO CÁ KIỂNG"
-                android:textColor="@color/white"
+                android:text="CÁC LOẠI THUỐC CHO CÁ"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
