@@ -4,6 +4,13 @@
     <string name="title_cart">Shopping Cart</string>
     <string name="title_order">Order</string>
     <string name="title_profile">Profile</string>
+    <string name="title_fish">Fish</string>
     <string name="navigation_drawer_open">Mở menu</string>
+    <string name="token">"eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJDVVNUT01FUiJdLCJzdWIiOiIwOTQ1NzMzODg4IiwiaWF0IjoxNzUxNTQ4ODE4LCJleHAiOjE3NTE1ODQ4MTh9.hLwXai7sUfOeUOcgLO48Q1-SSzuRcgmoWEoRmcW9COQ</string>
     <string name="navigation_drawer_close">Đóng menu</string>
+    <string-array name="sort_options">
+        <item>name</item>
+        <item>priceAsc</item>
+        <item>priceDesc</item>
+    </string-array>
 </resources>

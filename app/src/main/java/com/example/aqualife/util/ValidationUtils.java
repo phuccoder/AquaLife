@@ -9,8 +9,6 @@ public class ValidationUtils {
     }
 
     public static boolean isValidPhoneNumber(String phone) {
-        // Vietnam phone number validation (basic)
-        // Accepts formats: 0xxxxxxxxx, +84xxxxxxxxx
         return !phone.isEmpty() &&
                 (phone.matches("^(0|\\+84)[3|5|7|8|9][0-9]{8}$"));
     }

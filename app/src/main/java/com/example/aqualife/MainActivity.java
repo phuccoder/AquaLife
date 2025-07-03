@@ -25,7 +25,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
-import com.example.aqualife.function.uploadAvatar.AvatarManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.aqualife.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
@@ -74,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         binding.navView.setOnItemSelectedListener(item -> {
-            while (navController.popBackStack()) {
-            }
+//            while (navController.popBackStack()) {
+//            }
 
             navController.navigate(item.getItemId());
             return true;
@@ -103,15 +102,23 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         int targetFragmentId = R.id.navigation_home; // default
 
+        Bundle bundle = new Bundle();
+
         // Map drawer items to fragments
         if (itemId == R.id.nav_home) {
             targetFragmentId = R.id.navigation_home;
-        } else if (itemId == R.id.nav_fish || itemId == R.id.nav_tank) {
-            targetFragmentId = R.id.navigation_shopping_cart;
-        } else if (itemId == R.id.nav_medicine) {
-            targetFragmentId = R.id.navigation_home;
+        } if (itemId == R.id.nav_fish) {
+            targetFragmentId = R.id.navigation_fish;
+            bundle.putString("productType", "Fish");
+        } else if (itemId == R.id.nav_tank) {
+            targetFragmentId = R.id.navigation_fish;
+            bundle.putString("productType", "Aquarium");
         } else if (itemId == R.id.nav_food) {
-            targetFragmentId = R.id.navigation_order;
+            targetFragmentId = R.id.navigation_fish;
+            bundle.putString("productType", "Food");
+        } else if (itemId == R.id.nav_medicine) {
+            targetFragmentId = R.id.navigation_fish;
+            bundle.putString("productType", "Medicine");
         } else if (itemId == R.id.nav_about) {
             targetFragmentId = R.id.navigation_profile;
         } else if (itemId == R.id.nav_logout) {
@@ -119,10 +126,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        while (navController.popBackStack()) {
-        }
+//        while (navController.popBackStack()) {
+//        }
 
-        navController.navigate(targetFragmentId);
+        navController.navigate(targetFragmentId, bundle);
         
         binding.navView.setSelectedItemId(targetFragmentId);
     }
