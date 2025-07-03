@@ -29,5 +29,10 @@
         android:label="@string/title_profile"
         tools:layout="@layout/activity_user_profile" />
 
+    <fragment
+        android:id="@+id/navigation_fish"
+        android:name="com.example.aqualife.ui.product.ProductListFragment"
+        android:label="@string/title_fish"
+        tools:layout="@layout/activity_view_all_fish" />
 
 </navigation>
