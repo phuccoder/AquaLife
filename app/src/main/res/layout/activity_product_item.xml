@@ -38,5 +38,15 @@
             android:textColor="@color/main_green"
             android:textSize="10sp"
             android:text="Giá sản phẩm"/>
+        <Button
+            android:id="@+id/btnOpenAddToCart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thêm vào giỏ hàng"
+            android:backgroundTint="@color/black"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
