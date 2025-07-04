@@ -3,7 +3,6 @@ package com.example.aqualife.services;
 import com.example.aqualife.model.AccountInfor;
 import com.example.aqualife.model.CartResponse;
 import com.example.aqualife.model.CreateOrUpdateCartRequest;
-import com.example.aqualife.model.ProductListData;
 import com.example.aqualife.model.Response;
 
 import retrofit2.Call;
