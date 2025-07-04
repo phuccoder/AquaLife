@@ -100,14 +100,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleNavigationItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        int targetFragmentId = R.id.navigation_home; // default
+        int targetFragmentId = R.id.navigation_home;
 
         Bundle bundle = new Bundle();
+        boolean shouldNavigate = true;
 
-        // Map drawer items to fragments
         if (itemId == R.id.nav_home) {
             targetFragmentId = R.id.navigation_home;
-        } if (itemId == R.id.nav_fish) {
+        } else if (itemId == R.id.nav_fish) {
             targetFragmentId = R.id.navigation_fish;
             bundle.putString("productType", "Fish");
         } else if (itemId == R.id.nav_tank) {
@@ -121,17 +121,28 @@ public class MainActivity extends AppCompatActivity {
             bundle.putString("productType", "Medicine");
         } else if (itemId == R.id.nav_about) {
             targetFragmentId = R.id.navigation_profile;
+        } else if (itemId == R.id.nav_all_products) {
+            targetFragmentId = R.id.navigation_fish;
+            bundle.putString("productType", null);
         } else if (itemId == R.id.nav_logout) {
             handleLogout();
-            return;
+            shouldNavigate = false;
         }
 
-//        while (navController.popBackStack()) {
-//        }
+        if (shouldNavigate) {
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setPopUpTo(R.id.navigation_home, false)
+                    .build();
 
-        navController.navigate(targetFragmentId, bundle);
-        
-        binding.navView.setSelectedItemId(targetFragmentId);
+            navController.navigate(targetFragmentId, bundle, navOptions);
+
+            if (targetFragmentId == R.id.navigation_home ||
+                    targetFragmentId == R.id.navigation_order ||
+                    targetFragmentId == R.id.navigation_profile ||
+                    targetFragmentId == R.id.navigation_shopping_cart) {
+                binding.navView.setSelectedItemId(targetFragmentId);
+            }
+        }
     }
 
     private void handleLogout() {

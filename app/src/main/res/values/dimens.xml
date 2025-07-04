@@ -6,4 +6,7 @@
     <!-- Các giá trị margin mặc định -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="item_spacing">4dp</dimen>
+    <dimen name="grid_spacing">8dp</dimen>
 </resources>

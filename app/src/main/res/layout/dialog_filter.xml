@@ -1,48 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Lọc sản phẩm"
+            android:textSize="18sp"
+            android:textColor="@color/main_blue"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Product Type Dropdown -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loại sản phẩm"
+            android:textStyle="bold"
+            android:textColor="@color/main_blue" />
+
+        <Spinner
+            android:id="@+id/spinnerProductType"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Price Range -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Khoảng giá"
             android:textStyle="bold"
-            />
+            android:textColor="@color/main_blue" />
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
             android:weightSum="2">
-            <EditText
-                android:id="@+id/edtMinPrice"
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="number"
-                android:hint="Từ" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <EditText
+                    android:id="@+id/edtMinPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="Từ" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Space
                 android:layout_width="8dp"
-                android:layout_height="wrap_content"
-                />
-            <EditText
-                android:id="@+id/edtMaxPrice"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="number"
-                android:hint="Đến" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <EditText
+                    android:id="@+id/edtMaxPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="Đến" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <Button android:id="@+id/btnApplyFilter"
+        <!-- Sorting Options -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sắp xếp theo"
+            android:textStyle="bold"
+            android:textColor="@color/main_blue"
+            android:layout_marginBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rgSortBy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Áp dụng" />
+            android:layout_marginBottom="16dp">
+
+            <RadioButton
+                android:id="@+id/rbDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mặc định"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/rbPriceAsc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Giá: Thấp đến cao" />
+
+            <RadioButton
+                android:id="@+id/rbPriceDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Giá: Cao đến thấp" />
+
+            <RadioButton
+                android:id="@+id/rbName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tên sản phẩm" />
+        </RadioGroup>
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnReset"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="Xoá bộ lọc"
+                android:textAllCaps="false"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+            <Button
+                android:id="@+id/btnApplyFilter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="Áp dụng"
+                android:textAllCaps="false"
+                app:backgroundTint="@color/main_blue" />
+        </LinearLayout>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

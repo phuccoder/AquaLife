@@ -25,11 +25,9 @@
             android:text="Còn: 0"
             android:textSize="14sp"
             android:layout_marginStart="12dp"
-
             android:textColor="#4CAF50"
             android:textStyle="bold" />
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/txtName"
@@ -45,6 +43,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <!-- Add the total price TextView here -->
+    <TextView
+        android:id="@+id/txtTotalPrice"
+        android:textColor="#F44336"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,7 +60,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp">
 
-        <!-- Text nằm bên trái -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,13 +67,11 @@
             android:layout_marginEnd="10dp"
             android:textStyle="bold" />
 
-        <!-- View giãn cách ở giữa -->
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-        <!-- Nhóm nút tăng giảm bên phải -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,8 +97,6 @@
                 android:text="+" />
         </LinearLayout>
     </LinearLayout>
-
-
 
     <Button
         android:id="@+id/btnAddToCart"
