@@ -62,7 +62,7 @@ public class ProductListFragment extends Fragment {
     private String currentSortBy = null;
     private ProgressBar progressBar;
     private String selectedProductType = null;
-    private int pageNumber = 1;
+    private int pageNumber = 0;
     private final int pageSize = 10;
     private int productSize = 0;
     private boolean isLastPage = false;
@@ -179,7 +179,7 @@ public class ProductListFragment extends Fragment {
                         recyclerView.setVisibility(View.VISIBLE);
                         tvEmpty.setVisibility(View.GONE);
                         productSize += products.size();
-                        isLastPage = response.body().getData().getCurrentPage() == response.body().getData().getTotalPages();
+                        isLastPage = response.body().getData().getCurrentPage() == (response.body().getData().getTotalPages() - 1);
                     } else {
                         recyclerView.setVisibility(View.GONE);
                         tvEmpty.setVisibility(View.VISIBLE);
