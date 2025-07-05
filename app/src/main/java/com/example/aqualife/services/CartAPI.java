@@ -39,4 +39,7 @@ public interface CartAPI {
     Call<Response<Object>> deleteCartById(
             @Path("id") int id
     );
+
+    @DELETE("api/v1/carts/items/{cartItemId}")
+    Call<Response<CartResponse>> deleteCartItem(@Path("cartItemId") int cartItemId);
 }

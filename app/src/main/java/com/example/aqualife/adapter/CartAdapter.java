@@ -133,7 +133,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     });
 
                     holder.btnDelete.setOnClickListener(v -> {
-                        updateCart(holder, item, 0);
+                        deleteCartItem(holder, item);
                     });
                 } else {
                     handleErrorResponse(context, response.code());
@@ -142,6 +142,49 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
             @Override
             public void onFailure(Call<Response<Product>> call, Throwable t) {
+                handleFailure(context, t);
+            }
+        });
+    }
+
+    private void deleteCartItem(CartViewHolder holder, CartItemResponse item) {
+        Context context = holder.itemView.getContext();
+
+        CartAPI api = ApiClient.getAuthenticatedClient(context)
+                .create(CartAPI.class);
+
+        api.deleteCartItem(item.getCartItemId()).enqueue(new Callback<Response<CartResponse>>() {
+            @Override
+            public void onResponse(Call<Response<CartResponse>> call, retrofit2.Response<Response<CartResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Update the cart data with the updated response from server
+                    cartItems = response.body().getData();
+                    notifyDataSetChanged();
+
+                    // Show success message
+                    Toast.makeText(context, "Đã xóa sản phẩm khỏi giỏ hàng", Toast.LENGTH_SHORT).show();
+
+                    // Notify listener that cart has changed
+                    if (cartChangedListener != null) {
+                        cartChangedListener.onCartUpdated();
+                    }
+                } else {
+                    try {
+                        String errorBody = response.errorBody() != null ? response.errorBody().string() : null;
+                        if (errorBody != null) {
+                            JSONObject json = new JSONObject(errorBody);
+                            String message = json.optString("message", "Không thể xóa sản phẩm");
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(context, "Lỗi khi xóa sản phẩm", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Response<CartResponse>> call, Throwable t) {
+                Toast.makeText(context, "Không thể kết nối đến server", Toast.LENGTH_SHORT).show();
                 handleFailure(context, t);
             }
         });
