@@ -117,6 +117,7 @@
                         android:gravity="center_vertical">
 
                         <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/avatarImage"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:scaleType="centerCrop"
@@ -130,6 +131,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/fullName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="GUEST"
@@ -346,175 +348,187 @@
             </RelativeLayout>
 
             <!-- Fish Section -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="CÁC LOẠI CÁ KIỂNG"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center_vertical">
 
-                <include
-                    android:id="@+id/fish_service_1"
-                    layout="@layout/activity_service_item"
+                <TextView
+                    android:id="@+id/titleFish"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:text="CÁC LOẠI CÁ KIỂNG"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                <include
-                    android:id="@+id/fish_service_2"
-                    layout="@layout/activity_service_item"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1" />
-
-                <include
-                    android:id="@+id/fish_service_3"
-                    layout="@layout/activity_service_item"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnViewMoreFish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:backgroundTint="@color/main_blue"
+                    android:text="Xem thêm"
+                    android:textSize="12sp"
+                    android:textAllCaps="false"
+                    app:cornerRadius="20dp"/>
             </LinearLayout>
 
-            <!-- Tank Section -->
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="CÁC LOẠI BỂ/HỒ"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingHorizontal="16dp">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewFish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"/>
+            </LinearLayout>
+
+            <!-- Aquarium Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center_vertical">
 
-                <include
-                    android:id="@+id/tank_product_1"
-                    layout="@layout/activity_product_item"
+                <TextView
+                    android:id="@+id/titleTank"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:text="CÁC LOẠI BỂ/HỒ"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                <include
-                    android:id="@+id/tank_product_2"
-                    layout="@layout/activity_product_item"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnViewMoreTank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:backgroundTint="@color/main_blue"
+                    android:text="Xem thêm"
+                    android:textSize="12sp"
+                    android:textAllCaps="false"
+                    app:cornerRadius="20dp"/>
+            </LinearLayout>
 
-                <include
-                    android:id="@+id/tank_product_3"
-                    layout="@layout/activity_product_item"
-                    android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingHorizontal="16dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewTank"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1" />
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"/>
             </LinearLayout>
 
             <!-- Fish Food Section -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="CÁC LOẠI THỨC ĂN CHO CÁ"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center_vertical">
 
-                <include
-                    android:id="@+id/food_service_1"
-                    layout="@layout/activity_service_item"
+                <TextView
+                    android:id="@+id/titleFood"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:text="CÁC LOẠI THỨC ĂN CHO CÁ"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                <include
-                    android:id="@+id/food_service_2"
-                    layout="@layout/activity_service_item"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnViewMoreFood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:backgroundTint="@color/main_blue"
+                    android:text="Xem thêm"
+                    android:textSize="12sp"
+                    android:textAllCaps="false"
+                    app:cornerRadius="20dp"/>
+            </LinearLayout>
 
-                <include
-                    android:id="@+id/food_service_3"
-                    layout="@layout/activity_service_item"
-                    android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingHorizontal="16dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewFood"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1" />
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"/>
             </LinearLayout>
 
             <!-- Fish Medicine Section -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="CÁC LOẠI THUỐC CHO CÁ"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center_vertical">
 
-                <include
-                    android:id="@+id/medicine_product_1"
-                    layout="@layout/activity_product_item"
+                <TextView
+                    android:id="@+id/titleMedicine"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:text="CÁC LOẠI THUỐC CHO CÁ"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                <include
-                    android:id="@+id/medicine_product_2"
-                    layout="@layout/activity_product_item"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnViewMoreMedicine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:backgroundTint="@color/main_blue"
+                    android:text="Xem thêm"
+                    android:textSize="12sp"
+                    android:textAllCaps="false"
+                    app:cornerRadius="20dp"/>
+            </LinearLayout>
 
-                <include
-                    android:id="@+id/medicine_product_3"
-                    layout="@layout/activity_product_item"
-                    android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingHorizontal="16dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewMedicine"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1" />
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"/>
             </LinearLayout>
 
         </LinearLayout>

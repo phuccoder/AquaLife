@@ -14,6 +14,12 @@
             android:titleCondensed="Home"/>
 
         <item
+            android:id="@+id/nav_all_products"
+            android:icon="@drawable/reef"
+            android:title="Tất cả sản phẩm"
+            android:titleCondensed="Fish"/>
+
+        <item
             android:id="@+id/nav_fish"
             android:icon="@drawable/fish_menu_icon"
             android:title="Cá dành cho bạn"

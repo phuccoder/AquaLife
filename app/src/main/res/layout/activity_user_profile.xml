@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
+    <!-- Main content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fillViewport="true">
+
+    <!-- Keeping the main structure intact -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Header Section with Wave Background -->
+        <!-- Header Section - No changes needed -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@drawable/aquarium_profile_background"
             android:layout_marginBottom="24dp">
 
-            <!-- Avatar Section -->
+            <!-- Avatar Section remains the same -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,16 +34,15 @@
                 android:orientation="vertical"
                 android:gravity="center">
 
-                    <ImageView
-                        android:id="@+id/avatarView"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        app:cardCornerRadius="60dp"
-                        app:cardElevation="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:background="@drawable/circle_background" />
+                <ImageView
+                    android:id="@+id/avatarView"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    app:cardCornerRadius="60dp"
+                    app:cardElevation="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/circle_background" />
 
-                <!-- Upload Avatar Button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSelectImage"
                     android:layout_width="wrap_content"
@@ -50,12 +55,10 @@
                     app:iconSize="16dp"
                     app:iconGravity="textStart"
                     style="@style/Widget.Material3.Button" />
-
             </LinearLayout>
-
         </RelativeLayout>
 
-        <!-- User Information Card -->
+        <!-- User Information Card - Modified to include EditText fields -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +91,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Thông tin cá nhân"
+                        android:text="Thông tin cá nhân"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/main_blue" />
@@ -100,10 +103,9 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         app:tint="@color/main_green"
                         android:contentDescription="Edit Profile" />
-
                 </LinearLayout>
 
-                <!-- User Name Field -->
+                <!-- User Name Field - Modified -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -127,11 +129,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Họ và tên"
+                            android:text="Họ và tên"
                             android:textSize="12sp"
                             android:textColor="@color/main_blue"
                             android:alpha="0.7" />
 
+                        <!-- Display mode -->
                         <TextView
                             android:id="@+id/tv_user_name"
                             android:layout_width="wrap_content"
@@ -142,11 +145,23 @@
                             android:layout_marginTop="4dp"
                             tools:text="John Doe" />
 
-                    </LinearLayout>
+                        <!-- Edit mode -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/layout_edit_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
 
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
-                <!-- Email Field -->
+                <!-- Email Field - Modified -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -175,6 +190,7 @@
                             android:textColor="@color/main_blue"
                             android:alpha="0.7" />
 
+                        <!-- Display mode -->
                         <TextView
                             android:id="@+id/tv_email"
                             android:layout_width="wrap_content"
@@ -185,11 +201,23 @@
                             android:layout_marginTop="4dp"
                             tools:text="john.doe@example.com" />
 
-                    </LinearLayout>
+                        <!-- Edit mode -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/layout_edit_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
 
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_email"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textEmailAddress" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
-                <!-- Phone Number Field -->
+                <!-- Phone Number Field - Modified -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -213,11 +241,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Số điện thoại"
+                            android:text="Số điện thoại"
                             android:textSize="12sp"
                             android:textColor="@color/main_blue"
                             android:alpha="0.7" />
 
+                        <!-- Display mode -->
                         <TextView
                             android:id="@+id/tv_phone_number"
                             android:layout_width="wrap_content"
@@ -228,11 +257,23 @@
                             android:layout_marginTop="4dp"
                             tools:text="+1 234 567 8900" />
 
-                    </LinearLayout>
+                        <!-- Edit mode -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/layout_edit_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
 
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="phone" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
-                <!-- Address Field -->
+                <!-- Address Field - Modified -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -256,11 +297,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Địa chỉ"
+                            android:text="Địa chỉ"
                             android:textSize="12sp"
                             android:textColor="@color/main_blue"
                             android:alpha="0.7" />
 
+                        <!-- Display mode -->
                         <TextView
                             android:id="@+id/tv_address"
                             android:layout_width="wrap_content"
@@ -271,15 +313,25 @@
                             android:layout_marginTop="4dp"
                             tools:text="123 Ocean Drive, Aquarium City, AC 12345" />
 
+                        <!-- Edit mode -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/layout_edit_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPostalAddress" />
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
-
                 </LinearLayout>
-
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
 
-        <!-- Action Buttons Section -->
+        <!-- Action Buttons Section - No changes needed -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -287,13 +339,13 @@
             app:cardElevation="4dp"
             android:layout_marginBottom="16dp">
 
+            <!-- Rest of the action buttons section remains unchanged -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- Actions Header -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -311,42 +363,38 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Thao tác"
+                        android:text="Thao tác"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/main_green" />
-
                 </LinearLayout>
 
-                <!-- Action Buttons Grid -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
-                    <!-- Edit Information Button -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_edit_info"
                         android:layout_width="0dp"
                         android:layout_height="56dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
-                        android:text="Cập nhật"
+                        android:text="Cập nhật"
                         android:textColor="@color/white"
                         app:backgroundTint="@color/main_blue"
                         app:cornerRadius="12dp"
                         app:iconGravity="textStart"
                         style="@style/Widget.Material3.Button" />
 
-                    <!-- Save Changes Button -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnUpload"
                         android:layout_width="0dp"
                         android:layout_height="56dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
-                        android:text="Lưu thay đổi"
+                        android:text="Lưu thay đổi"
                         android:textColor="@color/main_green"
                         app:backgroundTint="@android:color/transparent"
                         app:strokeColor="@color/main_green"
@@ -355,23 +403,21 @@
                         app:iconTint="@color/main_green"
                         app:iconGravity="textStart"
                         style="@style/Widget.Material3.Button.OutlinedButton" />
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:visibility="gone" />
                 </LinearLayout>
-
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
 
-        <!-- Bottom Spacer -->
         <View
             android:layout_width="match_parent"
             android:layout_height="24dp" />
-
     </LinearLayout>
-
 </ScrollView>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminateTint="@color/main_blue"/>
+
+</FrameLayout>
