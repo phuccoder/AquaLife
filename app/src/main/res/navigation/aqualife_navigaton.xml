@@ -34,5 +34,9 @@
         android:name="com.example.aqualife.ui.product.ProductListFragment"
         android:label="@string/title_fish"
         tools:layout="@layout/activity_view_all_fish" />
-
+    <fragment
+        android:id="@+id/navigation_productList_to_productDetail"
+        android:name="com.example.aqualife.ui.product.ProductDetailFragment"
+        android:label="@string/title_fish"
+        tools:layout="@layout/activity_view_all_fish" />
 </navigation>

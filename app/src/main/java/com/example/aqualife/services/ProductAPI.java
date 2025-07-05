@@ -16,7 +16,9 @@ public interface ProductAPI {
             @Query("type") String type,
             @Query("minPrice") Integer minPrice,
             @Query("maxPrice") Integer maxPrice,
-            @Query("sortBy") String sortBy
+            @Query("sortBy") String sortBy,
+            @Query("page") int pageNumber,
+            @Query("size") int pageSize
     );
 
     @GET("api/v1/products/{id}")

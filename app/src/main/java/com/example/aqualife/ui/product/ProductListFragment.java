@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -61,6 +62,10 @@ public class ProductListFragment extends Fragment {
     private String currentSortBy = null;
     private ProgressBar progressBar;
     private String selectedProductType = null;
+    private int pageNumber = 1;
+    private final int pageSize = 10;
+    private int productSize = 0;
+    private boolean isLastPage = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,12 +109,30 @@ public class ProductListFragment extends Fragment {
                 }
             }
         });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (productSize != 0 && layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == productSize - 1 && !isLastPage) {
+                    pageNumber += 1;
+                    String keyword = edtKeyword.getText().toString().trim();
+                    fetchProducts(selectedProductType != null ? selectedProductType : productType,
+                            keyword, minPrice, maxPrice, currentSortBy);
+                }
+            }
+        });
         adapter = new ProductGridAdapter();
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(product -> showAddToCartBottomSheet(product));
-
+        adapter.setProductClickListener(product -> {
+            Bundle bundle = new Bundle();
+            bundle.putInt("productId", product.getProductId());
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.navigate(R.id.navigation_productList_to_productDetail, bundle);
+        });
         progressBar = new ProgressBar(requireContext());
         progressBar.setId(View.generateViewId());
         progressBar.setVisibility(View.GONE);
@@ -134,12 +157,12 @@ public class ProductListFragment extends Fragment {
 
     private void fetchProducts(String type, String keyword, Integer minPrice, Integer maxPrice, String sortBy) {
         showLoading(true);
-
+        if (isLastPage) return;
         ProductAPI api = ApiClient.getAuthenticatedClient(requireContext())
                 .create(ProductAPI.class);
 
         Call<com.example.aqualife.model.Response<ProductListData>> call =
-                api.getProducts(keyword, type, minPrice, maxPrice, sortBy);
+                api.getProducts(keyword, type, minPrice, maxPrice, sortBy, pageNumber, pageSize);
 
         call.enqueue(new Callback<com.example.aqualife.model.Response<ProductListData>>() {
             @Override
@@ -155,6 +178,8 @@ public class ProductListFragment extends Fragment {
                         adapter.setProducts(products);
                         recyclerView.setVisibility(View.VISIBLE);
                         tvEmpty.setVisibility(View.GONE);
+                        productSize += products.size();
+                        isLastPage = response.body().getData().getCurrentPage() == response.body().getData().getTotalPages();
                     } else {
                         recyclerView.setVisibility(View.GONE);
                         tvEmpty.setVisibility(View.VISIBLE);

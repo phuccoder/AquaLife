@@ -21,6 +21,9 @@ public class Product implements Serializable {
     private String behavior;
     private String temperature;
     private String ph;
+    private String foodType;
+    private String medicineType;
+    private String size;
 
     public int getProductId() {
         return productId;
@@ -156,5 +159,29 @@ public class Product implements Serializable {
 
     public void setPh(String ph) {
         this.ph = ph;
+    }
+
+    public String getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(String foodType) {
+        this.foodType = foodType;
+    }
+
+    public String getMedicineType() {
+        return medicineType;
+    }
+
+    public void setMedicineType(String medicineType) {
+        this.medicineType = medicineType;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }

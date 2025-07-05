@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.aqualife.R;
+import com.example.aqualife.listener.OnProductClickListener;
 import com.example.aqualife.model.Product;
 import com.google.android.material.button.MaterialButton;
 
@@ -23,7 +24,7 @@ public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.
 
     private List<Product> products = new ArrayList<>();
     private OnItemClickListener listener;
-
+    private OnProductClickListener productClickListener;
     public interface OnItemClickListener {
         void onItemClick(Product product);
     }
@@ -32,8 +33,16 @@ public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.
         this.listener = listener;
     }
 
+    public void setProductClickListener(OnProductClickListener productClickListener) {
+        this.productClickListener = productClickListener;
+    }
+
     public void setProducts(List<Product> products) {
-        this.products = products;
+        if(this.products.isEmpty()){
+            this.products = products;
+        }else{
+            this.products.addAll(products);
+        }
         notifyDataSetChanged();
     }
 
@@ -49,6 +58,11 @@ public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = products.get(position);
         holder.bind(product);
+        holder.itemView.setOnClickListener(v -> {
+            if(productClickListener != null){
+                productClickListener.onProductClick(product);
+            }
+        });
     }
 
     @Override
