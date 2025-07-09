@@ -75,7 +75,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     public static class CartViewHolder extends RecyclerView.ViewHolder {
-        TextView txtProductName, txtProductPrice, txtQuantity;
+        TextView txtProductName, txtProductPrice, txtQuantity, txtTotalPrice;
         ImageView imgProduct;
         Button btnPlus, btnMinus;
         ImageButton btnDelete;
@@ -86,6 +86,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             txtProductName = itemView.findViewById(R.id.txtProductName);
             txtProductPrice = itemView.findViewById(R.id.txtProductPrice);
             txtQuantity = itemView.findViewById(R.id.txtQuantity);
+            txtTotalPrice = itemView.findViewById(R.id.txtTotalPrice);
             btnMinus = itemView.findViewById(R.id.btnMinus);
             btnPlus = itemView.findViewById(R.id.btnPlus);
             btnDelete = itemView.findViewById(R.id.btnDelete);
@@ -105,9 +106,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     Product product = response.body().getData();
 
                     holder.txtProductName.setText(product.getProductName());
-                    holder.txtProductPrice.setText("₫" + item.getPrice());
+                    holder.txtProductPrice.setText("₫" + product.getPrice());
                     holder.txtQuantity.setText(String.valueOf(item.getQuantity()));
-
+                    holder.txtTotalPrice.setText("Thành tiền: " + item.getPrice());
                     int[] quantity = { item.getQuantity() };
                     double unitPrice = product.getPrice();
 

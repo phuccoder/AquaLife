@@ -34,5 +34,10 @@
         android:name="com.example.aqualife.ui.product.ProductListFragment"
         android:label="@string/title_fish"
         tools:layout="@layout/activity_view_all_fish" />
+    <fragment
+        android:id="@+id/navigation_checkout"
+        android:name="com.example.aqualife.ui.checkout.CheckoutFragment"
+        android:label="@string/title_checkout"
+        tools:layout="@layout/activity_checkout" />
 
 </navigation>

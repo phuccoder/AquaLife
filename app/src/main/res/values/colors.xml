@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="main_blue">#1d80b4</color> <!--    tao moi-->
     <color name="main_green">#39b15a</color><!--    tao moi-->
+    <color name="red">#990B0B</color>
 </resources>
