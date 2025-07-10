@@ -2,6 +2,7 @@ package com.example.aqualife;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.storage.FirebaseStorage;
@@ -13,16 +14,15 @@ public class AquaLifeApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        try {
-            // Initialize Firebase
-            FirebaseApp.initializeApp(this);
+        FirebaseApp.initializeApp(this);
 
-            // Initialize Firebase Storage explicitly
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            Log.d(TAG, "Firebase initialized successfully");
-            Log.d(TAG, "Storage bucket: " + storage.getReference().getBucket());
+        try {
+            String firebaseId = FirebaseApp.getInstance().getOptions().getProjectId();
+            Log.d("Firebase", "Connected to Firebase project: " + firebaseId);
+            Toast.makeText(this, "Connected to Firebase: " + firebaseId, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e(TAG, "Failed to initialize Firebase", e);
+            Log.e("Firebase", "Error connecting to Firebase", e);
+            Toast.makeText(this, "Firebase connection error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }
