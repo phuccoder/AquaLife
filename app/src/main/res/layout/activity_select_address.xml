@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbBack"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FFFFFF"
+        android:title="Chọn địa chỉ nhận hàng"
+        android:titleTextColor="#000000"
+        android:navigationIcon="@drawable/ic_arrow_back2" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAddresses"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp" />
+
+    <Button
+        android:id="@+id/btnAddAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="➕ Thêm Địa Chỉ Mới"
+        android:backgroundTint="#FF5722"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_margin="8dp" />
+</LinearLayout>

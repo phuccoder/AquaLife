@@ -63,6 +63,16 @@ dependencies {
 
     // Image handling
     implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\Java\\android",
+        "include" to listOf("*.aar", "*.jar"),
+        "exclude" to listOf("")
+    )))
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\Java\\android\\AquaLife\\app\\lib",
+        "include" to listOf("*.aar", "*.jar"),
+        "exclude" to listOf("")
+    )))
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.22")
     implementation("io.coil-kt:coil-gif:2.6.0")
@@ -74,4 +84,9 @@ dependencies {
 
     implementation ("com.github.dhaval2404:imagepicker:2.1")
     implementation ("pub.devrel:easypermissions:3.0.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.6.0")
+    implementation("commons-codec:commons-codec:1.14")
+
+    implementation(files("lib/zpdk-release-v3.1.aar"))
 }

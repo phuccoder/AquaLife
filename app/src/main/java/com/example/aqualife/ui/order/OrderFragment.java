@@ -14,62 +14,84 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aqualife.R;
-//import com.example.aqualife.adapter.CartAdapter;
-//import com.example.aqualife.model.CartItemResponse;
-//import com.example.aqualife.model.CartResponse;
-//import com.example.aqualife.model.Response;
-//import com.example.aqualife.services.CartAPI;
+import com.example.aqualife.adapter.OrderAdapter;
+import com.example.aqualife.model.AccountInfor;
+import com.example.aqualife.model.OrderResponse;
+import com.example.aqualife.model.Response;
+import com.example.aqualife.network.ApiClient;
+import com.example.aqualife.services.CartAPI;
+import com.example.aqualife.services.OrderAPI;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OrderFragment extends Fragment {
-    private RecyclerView recyclerCart;
-//    private CartAdapter adapter;
+    private RecyclerView rvOrders;
+    private TextView txtNoOrders;
+    private AccountInfor account;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.activity_view_order, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_view_order, container, false);
+        rvOrders = view.findViewById(R.id.rvOrders);
+        txtNoOrders  = view.findViewById(R.id.txtNoOrders);
+        fetchAccountData();
 
-//        recyclerCart = root.findViewById(R.id.recyclerOrder);
-//        recyclerCart.setLayoutManager(new LinearLayoutManager(getContext()));
-//        adapter = new CartAdapter();
-//        recyclerCart.setAdapter(adapter);
-//
-//        fetchCartData();
-
-        return root;
+        return view;
     }
 
-//    private void fetchCartData() {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://103.245.236.207:8080/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        CartAPI api = retrofit.create(CartAPI.class);
-//        String token = "Bearer " + getString(R.string.token); // Cập nhật nếu dùng SharedPreferences
-//
-//        api.getCartByAccountId(token, 2).enqueue(new Callback<Response<CartResponse>>() {
-//            @Override
-//            public void onResponse(Call<Response<CartResponse>> call, retrofit2.Response<Response<CartResponse>> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    CartResponse items = response.body().getData();
-//                    adapter.setCartItems(items);
-//                } else {
-//                    Toast.makeText(getContext(), "Lỗi lấy giỏ hàng", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Response<CartResponse>> call, Throwable t) {
-//                Toast.makeText(getContext(), "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+    private void fetchOrders() {
+        OrderAPI orderAPI = ApiClient.getAuthenticatedClient(requireContext())
+                .create(OrderAPI.class);
+
+        orderAPI.getOrdersByAccountId(account.getAccountId())
+                .enqueue(new Callback<Response<List<OrderResponse>>>() {
+                    @Override
+                    public void onResponse(Call<Response<List<OrderResponse>>> call,
+                                           retrofit2.Response<Response<List<OrderResponse>>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<OrderResponse> orders = response.body().getData();
+                            if (orders.isEmpty()) {
+                                txtNoOrders.setVisibility(View.VISIBLE);
+                                rvOrders.setVisibility(View.GONE);
+                            } else {
+                                txtNoOrders.setVisibility(View.GONE);
+                                rvOrders.setLayoutManager(new LinearLayoutManager(getContext()));
+                                rvOrders.setAdapter(new OrderAdapter(orders, getContext()));
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "Lỗi lấy danh sách đơn hàng", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response<List<OrderResponse>>> call, Throwable t) {
+                        Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    private void fetchAccountData() {
+        CartAPI api = ApiClient.getAuthenticatedClient(requireContext())
+                .create(CartAPI.class);
+
+        api.getAccountId().enqueue(new Callback<Response<AccountInfor>>() {
+            @Override
+            public void onResponse(Call<Response<AccountInfor>> call, retrofit2.Response<Response<AccountInfor>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    account = response.body().getData();
+                    fetchOrders();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Response<AccountInfor>> call, Throwable t) {
+
+            }
+        });
+    }
 }

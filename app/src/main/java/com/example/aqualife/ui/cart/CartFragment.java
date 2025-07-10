@@ -1,5 +1,6 @@
 package com.example.aqualife.ui.cart;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +31,8 @@ import com.example.aqualife.services.CartAPI;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.HttpException;
@@ -36,7 +41,7 @@ public class CartFragment extends Fragment {
 
     private RecyclerView recyclerCart;
     private CartAdapter adapter;
-    private int accountId;
+    private AccountInfor account;
     private TextView txtTotal;
     private Button btnCheckout;
     private ImageButton btnDeleteCart;
@@ -73,7 +78,7 @@ public class CartFragment extends Fragment {
         CartAPI api = ApiClient.getAuthenticatedClient(requireContext())
                 .create(CartAPI.class);
 
-        api.getCartByAccountId(accountId).enqueue(new Callback<Response<CartResponse>>() {
+        api.getCartByAccountId(account.getAccountId()).enqueue(new Callback<Response<CartResponse>>() {
             @Override
             public void onResponse(Call<Response<CartResponse>> call, retrofit2.Response<Response<CartResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -96,6 +101,13 @@ public class CartFragment extends Fragment {
 
                         btnCheckout.setVisibility(View.VISIBLE);
                         btnCheckout.setText("Tiến hành đặt hàng (" + itemCount + ")");
+                        btnCheckout.setOnClickListener(v -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("cart", items);
+                            bundle.putSerializable("account", account);
+                            NavController navController = NavHostFragment.findNavController(CartFragment.this);
+                            navController.navigate(R.id.navigation_checkout, bundle);
+                        });
                         adapter.setCartItems(items);
                     } else {
                         if (emptyCartLayout != null) emptyCartLayout.setVisibility(View.VISIBLE);
@@ -123,7 +135,7 @@ public class CartFragment extends Fragment {
             @Override
             public void onResponse(Call<Response<AccountInfor>> call, retrofit2.Response<Response<AccountInfor>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    accountId = response.body().getData().getAccountId();
+                    account = response.body().getData();
                     fetchCartData();
                 } else {
                     handleErrorResponse(response.code());

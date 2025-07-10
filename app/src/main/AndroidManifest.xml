@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <application
         android:name=".AquaLifeApplication"
         android:usesCleartextTraffic="true"
@@ -65,6 +64,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".VerifyOTPActivity" />
         </activity>
+        <activity
+            android:name=".ui.checkout.activity.PaymentActivity"
+            android:exported="true"
+            android:label="Merchant Demo"
+            android:launchMode="singleTask"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="demozpdk"
+                    android:host="app" />
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name=".ui.checkout.activity.SelectAddressActivity" />
+        <activity android:name=".ui.checkout.activity.EditAddressActivity" />
+        <activity android:name=".ui.checkout.activity.AddAddressActivity" />
         <meta-data android:name="com.google.android.gms.safetynet.RECAPTCHA_ENTERPRISE_SITE_KEY"
             android:value="6Lf3q2srAAAAAHS7p4GusEF8yDS3H8FKftGn01si" />
     </application>

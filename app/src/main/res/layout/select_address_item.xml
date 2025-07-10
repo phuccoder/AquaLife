@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="@drawable/bg_address_card"
+    android:gravity="center_vertical">
+
+    <RadioButton
+        android:id="@+id/radioDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:buttonTint="@color/red" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="8dp">
+
+        <TextView
+            android:id="@+id/txtNamePhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N V A| (+84) 076 976 987"
+            android:textStyle="bold"
+            android:textColor="#212121" />
+
+        <TextView
+            android:id="@+id/txtAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TP. HCM"
+            android:textColor="#757575"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/txtDefaultLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mặc định"
+            android:textColor="#FF5722"
+            android:background="@drawable/bg_preorder_chip"
+            android:paddingHorizontal="6dp"
+            android:visibility="gone"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sửa"
+        android:textColor="#BDBDBD"
+        android:layout_marginStart="12dp" />
+</LinearLayout>

@@ -1,8 +1,9 @@
 package com.example.aqualife.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CartResponse {
+public class CartResponse implements Serializable {
     private int cartId;
     private int accountId;
     private double totalPrice;
