@@ -279,7 +279,7 @@ public class HomeFragment extends Fragment {
     private void loadProductsByType(String type, ProductAdapter adapter) {
         ProductAPI api = ApiClient.getClient().create(ProductAPI.class);
 
-        api.getProducts(null, type, null, null, null)
+        api.getProducts(null, type, null, null, null, 1, 10)
                 .enqueue(new Callback<Response<ProductListData>>() {
                     @Override
                     public void onResponse(Call<Response<ProductListData>> call,
