@@ -1,8 +1,9 @@
 package com.example.aqualife.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class AccountInfor {
+public class AccountInfor implements Serializable {
     private int accountId;
     private String fullName;
     private String email;
