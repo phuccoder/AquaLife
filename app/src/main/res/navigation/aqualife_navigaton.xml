@@ -46,4 +46,10 @@
         android:name="com.example.aqualife.ui.checkout.CheckoutFragment"
         android:label="@string/title_checkout"
         tools:layout="@layout/activity_checkout" />
+
+    <fragment
+        android:id="@+id/navigation_about_us"
+        android:name="com.example.aqualife.ui.about.AboutUsFragment"
+        android:label="@string/title_checkout"
+        tools:layout="@layout/activity_about_us" />
 </navigation>

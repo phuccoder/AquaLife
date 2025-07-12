@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+        <!-- Header Section with Logo and Title -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:background="@drawable/bg_header_gradient">
+
+            <ImageView
+                android:id="@+id/header_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/fish_silhouette_overlay"
+                android:alpha="0.1"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/logo_aqualife"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/logo"
+                    android:layout_marginBottom="16dp"
+                    android:elevation="4dp" />
+
+                <TextView
+                    android:id="@+id/title_aqualife"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AquaLife"
+                    android:textSize="36sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:fontFamily=""
+                    android:elevation="4dp" />
+
+                <TextView
+                    android:id="@+id/subtitle_aqualife"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thiên Đường Thủy Sinh Của Bạn"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:textStyle="italic"
+                    android:layout_marginTop="8dp"
+                    android:elevation="4dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <!-- About Us Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:background="@color/white">
+
+            <!-- Welcome Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:background="@drawable/banner_background">
+
+                    <ImageView
+                        android:id="@+id/icon_welcome"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/logo"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="16dp"
+                         />
+
+                    <TextView
+                        android:id="@+id/welcome_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Chào Mừng Đến Với AquaLife"
+                        android:textSize="24sp"
+                        android:textColor="@color/main_blue"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:id="@+id/welcome_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hãy khám phá thế giới đầy mê hoặc của sinh vật thủy sinh! Từ năm 2020, AquaLife đã là người bạn đồng hành đáng tin cậy của bạn trong việc tạo ra những hệ sinh thái dưới nước tuyệt đẹp. Chúng tôi đam mê mang vẻ đẹp của thế giới thủy sinh đến không gian sống và làm việc của bạn."
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:lineSpacingExtra="4dp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Our Story Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:background="@color/white">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+
+                        <ImageView
+                            android:id="@+id/icon_story"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_story"
+                            android:layout_marginEnd="12dp"
+                            app:tint="@color/main_green" />
+
+                        <TextView
+                            android:id="@+id/story_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Câu Chuyện Của Chúng Tôi"
+                            android:textSize="20sp"
+                            android:textColor="@color/warning_orange"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/story_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Được thành lập bởi những người đam mê sinh vật biển, AquaLife bắt đầu như một doanh nghiệp gia đình nhỏ với một ước mơ lớn - làm cho việc nuôi cá cảnh trở nên dễ tiếp cận và thú vị cho tất cả mọi người. Từ một garage khiêm tốn, chúng tôi đã phát triển thành một cửa hàng thịnh vượng, phục vụ những người yêu thích thủy sinh từ người mới bắt đầu đến chuyên gia trong toàn khu vực."
+                        android:textSize="16sp"
+                        android:textColor="@color/text_primary"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- What We Offer Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:background="@color/white">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+
+                        <ImageView
+                            android:id="@+id/icon_products"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/icon_reef_all_products"
+                            android:layout_marginEnd="12dp"
+                            />
+
+                        <TextView
+                            android:id="@+id/products_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sản Phẩm Của Chúng Tôi"
+                            android:textSize="20sp"
+                            android:textColor="@color/main_green"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <!-- Products Grid -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2"
+                            android:layout_marginBottom="16dp">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:padding="12dp"
+                                android:layout_marginEnd="8dp"
+                                android:background="@drawable/banner_background">
+
+                                <ImageView
+                                    android:id="@+id/image_aquarium"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:src="@drawable/about_us_aquarium"
+                                    android:layout_marginBottom="8dp"
+                                     />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Bể Cá\nCao Cấp"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/text_primary"
+                                    android:textStyle="bold"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:padding="12dp"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/banner_background">
+
+                                <ImageView
+                                    android:id="@+id/image_fish"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:src="@drawable/about_us_fish"
+                                    android:layout_marginBottom="8dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Cá Cảnh\nNhiệt Đới"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/text_primary"
+                                    android:textStyle="bold"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:padding="12dp"
+                                android:layout_marginEnd="8dp"
+                                android:background="@drawable/banner_background">
+
+                                <ImageView
+                                    android:id="@+id/image_food"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:src="@drawable/about_us_food"
+                                    android:layout_marginBottom="8dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Thức Ăn\nDinh Dưỡng"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/text_primary"
+                                    android:textStyle="bold"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:padding="12dp"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/banner_background">
+
+                                <ImageView
+                                    android:id="@+id/image_medicine"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:src="@drawable/about_us_medicine"
+                                    android:layout_marginBottom="8dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Thuốc Chữa\nBệnh Cá"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/text_primary"
+                                    android:textStyle="bold"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Why Choose Us Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:background="@drawable/banner_background">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+
+                        <ImageView
+                            android:id="@+id/icon_why_choose"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_star"
+                            android:layout_marginEnd="12dp"
+                            app:tint="@color/gold" />
+
+                        <TextView
+                            android:id="@+id/why_choose_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tại Sao Chọn AquaLife?"
+                            android:textSize="20sp"
+                            android:textColor="@color/deep_sea_blue"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Expert Guidance -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_expert"
+                                android:layout_marginEnd="12dp"
+                                android:layout_marginTop="2dp"
+                                 />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hướng dẫn chuyên nghiệp từ các chuyên gia thủy sinh"
+                                android:textSize="16sp"
+                                android:textColor="@color/text_primary" />
+
+                        </LinearLayout>
+
+                        <!-- Quality Products -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_quality"
+                                android:layout_marginEnd="12dp"
+                                android:layout_marginTop="2dp"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sản phẩm chất lượng cao và cá khỏe mạnh"
+                                android:textSize="16sp"
+                                android:textColor="@color/text_primary" />
+
+                        </LinearLayout>
+
+                        <!-- 24/7 Support -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_support"
+                                android:layout_marginEnd="12dp"
+                                android:layout_marginTop="2dp"
+                                 />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hỗ trợ khách hàng 24/7 cho mọi nhu cầu thủy sinh"
+                                android:textSize="16sp"
+                                android:textColor="@color/text_primary" />
+
+                        </LinearLayout>
+
+                        <!-- Community -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_community"
+                                android:layout_marginEnd="12dp"
+                                android:layout_marginTop="2dp"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tham gia cộng đồng những người yêu thích thủy sinh"
+                                android:textSize="16sp"
+                                android:textColor="@color/text_primary" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <!-- Location Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <ImageView
+                    android:id="@+id/icon_location"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_location"
+                    android:layout_marginEnd="12dp"
+                    app:tint="@color/deep_sea_blue" />
+
+                <TextView
+                    android:id="@+id/location_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ghé Thăm Cửa Hàng"
+                    android:textSize="24sp"
+                    android:textColor="@color/deep_sea_blue"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Store Information -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/store_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="📍 123 Đường Hồ Cá, Quận Thủy Sinh\nThành Phố Pleiku, Gia Lai"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:id="@+id/store_hours"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="🕒 Thứ 2-6: 8:00 - 20:00\n🕒 Thứ 7-CN: 9:00 - 18:00"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:id="@+id/store_contact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="📞 (0269) 123-456\n✉️ info@aqualife.vn"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_primary" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Google Maps Container -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/deep_sea_blue" />
+                    <!-- Google Maps Fragment Container -->
+<!--                    <fragment-->
+<!--                        android:id="@+id/map_fragment"-->
+<!--                        android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        tools:context=".AboutUsActivity" />-->
+
+                    <!-- Map Overlay with Store Info -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="bottom|start"
+                        android:layout_margin="16dp"
+                        android:background="@drawable/map_info_background"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cửa Hàng AquaLife"
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nhấn để xem đường đi"
+                            android:textSize="12sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btn_directions"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="Xem Đường Đi"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_primary_background"
+                    android:drawableStart="@drawable/ic_directions"
+                    android:drawablePadding="8dp"
+                    android:elevation="4dp" />
+
+                <Button
+                    android:id="@+id/btn_call_store"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:text="Gọi Cửa Hàng"
+                    android:textColor="@color/deep_sea_blue"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_secondary_background"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawablePadding="8dp"
+                    android:elevation="4dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Footer -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/main_green"
+            android:padding="20dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Follow us on social media!"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/social_facebook"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_facebook"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/social_icon_background"
+                    android:padding="8dp" />
+
+                <ImageView
+                    android:id="@+id/social_instagram"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_instagram"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/social_icon_background"
+                    android:padding="8dp" />
+
+                <ImageView
+                    android:id="@+id/social_youtube"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_youtube"
+                    android:background="@drawable/social_icon_background"
+                    android:padding="8dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="© 2024 AquaLife. All rights reserved."
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="16dp"
+                android:alpha="0.7" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -42,6 +42,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.listener = listener;
     }
 
+    public interface ProductClickListener {
+        void onProductClick(Product product);
+    }
+    private ProductClickListener productClickListener;
+
+    public void setProductClickListener(ProductClickListener listener) {
+        this.productClickListener = listener;
+    }
+
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -78,6 +87,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && listener != null) {
                     listener.onItemClick(products.get(position));
+                }
+            });
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && productClickListener != null) {
+                    productClickListener.onProductClick(products.get(position));
                 }
             });
         }

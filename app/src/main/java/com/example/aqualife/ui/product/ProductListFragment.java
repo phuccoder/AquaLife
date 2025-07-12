@@ -478,4 +478,18 @@ public class ProductListFragment extends Fragment {
             recyclerView.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pageNumber = 0;
+        productSize = 0;
+        isLastPage = false;
+        if (adapter != null) {
+            adapter.setProducts(new java.util.ArrayList<>());
+        }
+        String productType = requireArguments().getString("productType");
+        fetchProducts(selectedProductType != null ? selectedProductType : productType,
+                edtKeyword.getText().toString().trim(), minPrice, maxPrice, currentSortBy);
+    }
 }

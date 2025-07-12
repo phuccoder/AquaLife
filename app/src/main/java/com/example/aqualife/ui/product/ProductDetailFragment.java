@@ -155,7 +155,7 @@ public class ProductDetailFragment extends Fragment {
 
         if (currentProduct.getQuantity() > 0) {
             chipStock.setText("Còn hàng");
-            chipStock.setChipBackgroundColorResource(R.color.green);
+            chipStock.setChipBackgroundColorResource(R.color.main_green);
         } else {
             chipStock.setText("Hết hàng");
             chipStock.setChipBackgroundColorResource(R.color.red);

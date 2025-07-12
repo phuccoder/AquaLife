@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             targetFragmentId = R.id.navigation_fish;
             bundle.putString("productType", "Medicine");
         } else if (itemId == R.id.nav_about) {
-            targetFragmentId = R.id.navigation_profile;
+            targetFragmentId = R.id.navigation_about_us;
         } else if (itemId == R.id.nav_all_products) {
             targetFragmentId = R.id.navigation_fish;
             bundle.putString("productType", null);

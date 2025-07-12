@@ -241,6 +241,12 @@ public class HomeFragment extends Fragment {
         tankViewMoreBtn.setOnClickListener(v -> navigateToProductList("Aquarium"));
         foodViewMoreBtn.setOnClickListener(v -> navigateToProductList("Food"));
         medicineViewMoreBtn.setOnClickListener(v -> navigateToProductList("Medicine"));
+
+        // Set view product detail
+        fishAdapter.setProductClickListener(product -> navigateToProductDetail(product.getProductId()));
+        tankAdapter.setProductClickListener(product -> navigateToProductDetail(product.getProductId()));
+        foodAdapter.setProductClickListener(product -> navigateToProductDetail(product.getProductId()));
+        medicineAdapter.setProductClickListener(product -> navigateToProductDetail(product.getProductId()));
     }
 
     private void setupRecyclerView(RecyclerView recyclerView, ProductAdapter adapter) {
@@ -260,6 +266,13 @@ public class HomeFragment extends Fragment {
         });
 
         recyclerView.setAdapter(adapter);
+    }
+
+    private void navigateToProductDetail(int productId) {
+        NavController navController = NavHostFragment.findNavController(this);
+        Bundle bundle = new Bundle();
+        bundle.putInt("productId", productId);
+        navController.navigate(R.id.navigation_productList_to_productDetail, bundle);
     }
 
     private void navigateToProductList(String productType) {

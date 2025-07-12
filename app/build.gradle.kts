@@ -73,6 +73,7 @@ dependencies {
         "include" to listOf("*.aar", "*.jar"),
         "exclude" to listOf("")
     )))
+    implementation(libs.play.services.maps)
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.22")
     implementation("io.coil-kt:coil-gif:2.6.0")
