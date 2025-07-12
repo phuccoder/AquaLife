@@ -79,7 +79,7 @@
             </intent-filter>
 
         </activity>
-
+        <activity android:name=".ui.order.activity.OrderDetailActivity" />
         <activity android:name=".ui.checkout.activity.SelectAddressActivity" />
         <activity android:name=".ui.checkout.activity.EditAddressActivity" />
         <activity android:name=".ui.checkout.activity.AddAddressActivity" />

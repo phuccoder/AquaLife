@@ -81,7 +81,7 @@ public class PaymentActivity extends AppCompatActivity {
                         paymentRequest.setOrderId(orderId);
                         paymentRequest.setAmount(amount);
                         paymentRequest.setTransactionId(transactionId);
-                        paymentRequest.setPaymentStatus("Success");
+                        paymentRequest.setPaymentStatus("SUCCESS");
                         SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
                         iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
                         paymentRequest.setPaymentDate(iso8601Format.format(new Date()));

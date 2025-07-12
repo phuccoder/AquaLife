@@ -6,4 +6,10 @@
     <color name="main_green">#39b15a</color><!--    tao moi-->
     <color name="green">#4CAF50</color>
     <color name="red">#FF0000</color>
+    <color name="teal_700">#018786</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="orange_500">#FF9800</color>
+    <color name="red_500">#F44336</color>
+    <color name="grey_500">#9E9E9E</color>
 </resources>

@@ -15,7 +15,7 @@
 
         <item
             android:id="@+id/nav_all_products"
-            android:icon="@drawable/icon_reef_all_products"
+            android:icon="@drawable/icon_profile"
             android:title="Tất cả sản phẩm"
             android:titleCondensed="Fish"/>
 
