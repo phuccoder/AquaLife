@@ -9,25 +9,33 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.aqualife.LoginActivity;
 import com.example.aqualife.R;
+import com.example.aqualife.model.CartItemResponse;
+import com.example.aqualife.model.CartResponse;
 import com.example.aqualife.model.CreateOrder;
 import com.example.aqualife.model.PaymentRequest;
 import com.example.aqualife.model.PaymentResponse;
+import com.example.aqualife.model.Product;
 import com.example.aqualife.model.Response;
 import com.example.aqualife.network.ApiClient;
 import com.example.aqualife.services.OrderAPI;
 import com.example.aqualife.services.PaymentAPI;
+import com.example.aqualife.services.ProductAPI;
 
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.HttpException;
 import vn.zalopay.sdk.Environment;
 import vn.zalopay.sdk.ZaloPayError;
 import vn.zalopay.sdk.ZaloPaySDK;
@@ -35,7 +43,8 @@ import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class PaymentActivity extends AppCompatActivity {
     private int orderId;
-    private double amount;
+    private CartResponse cart;
+    private List<CartItemResponse> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +52,17 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
 
         orderId = getIntent().getIntExtra("orderId", -1);
-        amount = getIntent().getDoubleExtra("amount", 0);
+        cart = (CartResponse) getIntent().getSerializableExtra("cart");
 
-        if (orderId == -1 || amount <= 0) {
+        if (orderId == -1 || cart == null) {
             Toast.makeText(this, "Dữ liệu không hợp lệ", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-
-        startZaloPay(orderId, amount);
+        for (CartItemResponse item: cart.getCartItems()
+        ) {
+            fetchProductDataById(item);
+        }
     }
     @Override
     protected void onNewIntent(Intent intent) {
@@ -68,7 +79,7 @@ public class PaymentActivity extends AppCompatActivity {
 
         try {
             int amountValue = amount.intValue();
-            JSONObject data = orderApi.createOrder(String.valueOf(amountValue));
+            JSONObject data = orderApi.createOrder(String.valueOf(amountValue), items);
             String code = data.getString("return_code");
 
             if (code.equals("1")) {
@@ -81,7 +92,7 @@ public class PaymentActivity extends AppCompatActivity {
                         paymentRequest.setOrderId(orderId);
                         paymentRequest.setAmount(amount);
                         paymentRequest.setTransactionId(transactionId);
-                        paymentRequest.setPaymentStatus("Success");
+                        paymentRequest.setPaymentStatus("SUCCESS");
                         SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
                         iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
                         paymentRequest.setPaymentDate(iso8601Format.format(new Date()));
@@ -159,5 +170,50 @@ public class PaymentActivity extends AppCompatActivity {
                 .setPositiveButton("OK", (dialog, which) -> finish())
                 .setCancelable(false)
                 .show();
+    }
+    private void fetchProductDataById(CartItemResponse item) {
+        ProductAPI api = ApiClient.getAuthenticatedClient(this)
+                .create(ProductAPI.class);
+        api.getProductById(item.getProductId()).enqueue(new Callback<Response<Product>>() {
+            @Override
+            public void onResponse(Call<Response<Product>> call, retrofit2.Response<Response<Product>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Product product = response.body().getData();
+                    item.setProduct(product);
+                    items.add(item);
+                    if(items.size() == cart.getCartItems().size()){
+                        startZaloPay(orderId, cart.getTotalPrice());
+                    }
+                } else {
+                    handleErrorResponse(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Response<Product>> call, Throwable t) {
+                handleFailure(t);
+            }
+        });
+    }
+    private void handleErrorResponse(int code) {
+        if (code == 401) {
+            Toast.makeText(this, "Session expired. Please login again", Toast.LENGTH_SHORT).show();
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(loginIntent);
+        } else {
+            Toast.makeText(this, "Error: " + code, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void handleFailure(Throwable t) {
+        if (t instanceof HttpException && ((HttpException) t).code() == 401) {
+            Toast.makeText(this, "Session expired. Please login again", Toast.LENGTH_SHORT).show();
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(loginIntent);
+        } else {
+            Toast.makeText(this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

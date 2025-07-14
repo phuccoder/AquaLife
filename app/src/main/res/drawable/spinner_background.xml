@@ -12,7 +12,7 @@
             </item>
             <item android:gravity="end|center_vertical">
                 <bitmap
-                    android:src="@drawable/ic_arrow_drop_down"
+                    android:src="@drawable/ic_menu"
                     android:tint="#555555" />
             </item>
         </layer-list>

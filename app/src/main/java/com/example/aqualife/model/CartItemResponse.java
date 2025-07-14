@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class CartItemResponse implements Serializable {
     private int cartItemId;
     private int productId;
+    private Product product;
     private int quantity;
     private Double price;
 
@@ -38,5 +39,13 @@ public class CartItemResponse implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

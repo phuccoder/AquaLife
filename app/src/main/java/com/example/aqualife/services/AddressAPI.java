@@ -29,4 +29,8 @@ public interface AddressAPI {
             @Path("id") int addressId,
             @Body AddressRequest request
     );
+    @GET("api/account-adds/{id}")
+    Call<Response<AddressResponse>> getAddressByID(
+            @Path("id") int id
+    );
 }

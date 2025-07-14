@@ -7,6 +7,7 @@ import com.example.aqualife.helper.HMac.HMacUtil;
 import org.jetbrains.annotations.NotNull;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
@@ -30,6 +31,11 @@ public class Helpers {
     @NotNull
     public static String getMac(@NotNull String key, @NotNull String data) throws NoSuchAlgorithmException, InvalidKeyException {
         return Objects.requireNonNull(HMacUtil.HMacHexStringEncode(HMacUtil.HMACSHA256, key, data));
+    }
+    public static String removeAccents(String input) {
+        return Normalizer.normalize(input, Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                .replaceAll("đ", "d").replaceAll("Đ", "D");
     }
 }
 

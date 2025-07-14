@@ -1,36 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Basic Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="main_blue">#1d80b4</color>
-    <!--     tao moi -->
-    <color name="main_green">#39b15a</color>
-    <!--     tao moi -->
-    <!--  Primary Colors  -->
+    <color name="red">#F44336</color>
+    <color name="green">#4CAF50</color>
+
+    <!-- Custom Brand Colors -->
+    <color name="main_blue">#1d80b4</color> <!-- tao moi -->
+    <color name="main_green">#39b15a</color> <!-- tao moi -->
+
+    <!-- Material Design Colors -->
+    <color name="teal_700">#018786</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="orange_500">#FF9800</color>
+    <color name="red_500">#F44336</color>
+    <color name="grey_500">#9E9E9E</color>
+
+    <!-- Primary Colors -->
     <color name="ocean_blue">#1565C0</color>
     <color name="deep_sea_blue">#0D47A1</color>
     <color name="aqua_accent">#00BCD4</color>
     <color name="coral_accent">#FF6B35</color>
-    <!--  Background Colors  -->
+
+    <!-- Background Colors -->
     <color name="card_background">#FFFFFF</color>
     <color name="surface_background">#F8FFFE</color>
     <color name="overlay_background">#80000000</color>
-    <!--  Text Colors  -->
+
+    <!-- Text Colors -->
     <color name="text_primary">#1A1A1A</color>
     <color name="text_secondary">#666666</color>
     <color name="text_on_primary">#FFFFFF</color>
     <color name="hint_color">#9E9E9E</color>
-    <!--  Border & Divider Colors  -->
+
+    <!-- Border & Divider Colors -->
     <color name="border_color">#E0E0E0</color>
     <color name="divider_color">#F0F0F0</color>
-    <!--  Status Colors  -->
+
+    <!-- Status Colors -->
     <color name="success_green">#4CAF50</color>
     <color name="warning_orange">#FF9800</color>
     <color name="error_red">#F44336</color>
-    <!--  State List Colors for Text Inputs  -->
+
+    <!-- State List Colors for Text Inputs -->
     <color name="text_input_stroke_focused">#00BCD4</color>
     <color name="text_input_stroke_default">#E0E0E0</color>
     <color name="text_input_stroke_error">#F44336</color>
-    <color name="red">#F44336</color>
+
+    <!-- Others -->
     <color name="gold">#FFD700</color>
 </resources>

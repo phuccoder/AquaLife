@@ -48,10 +48,12 @@ public class SelectAddressActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Chọn địa chỉ nhận hàng");
         toolbar.setNavigationOnClickListener(v -> {
-            if(updatedAddress.isDefault()){
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("selectedAddress", updatedAddress);
-                setResult(RESULT_OK, resultIntent);
+            if(updatedAddress != null){
+                if(updatedAddress.isDefault()){
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("selectedAddress", updatedAddress);
+                    setResult(RESULT_OK, resultIntent);
+                }
             }
             finish();
         });

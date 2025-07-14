@@ -27,5 +27,9 @@ public interface OrderAPI {
     Call<Response<List<OrderResponse>>> getOrdersByAccountId(
             @Path("id") int accountId
     );
+    @GET("api/orders/{id}")
+    Call<Response<List<OrderResponse>>> getOrdersById(
+            @Path("id") int id
+    );
 }
 

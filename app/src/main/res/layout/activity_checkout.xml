@@ -116,7 +116,7 @@
                     android:id="@+id/txtPaymentMethod"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Thanh toán khi nhận hàng"
+                    android:text="Thanh toán bằng Zalo Pay"
                     android:textColor="#757575"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
