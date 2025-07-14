@@ -85,8 +85,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
             txtOrderId.setText("Mã đơn hàng: #" + order.getOrderId());
 
-            List<CartItemResponse> cartItems = order.getCartItems();
-            CartItemAdapter adapter = new CartItemAdapter(cartItems, this);
+            CartItemAdapter adapter = new CartItemAdapter(order.getCartItems(), this);
             recyclerCartItems.setLayoutManager(new LinearLayoutManager(this));
             recyclerCartItems.setAdapter(adapter);
         }catch (Exception ex){

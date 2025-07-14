@@ -78,14 +78,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 displayText = "Đã hủy";
                 chipColor = ColorStateList.valueOf(Color.parseColor("#F44336"));
                 iconRes = R.drawable.ic_cancel;
-                holder.mbBuyAgain.setVisibility(View.GONE);
-                break;
-
-            case "PENDING":
-            case "CHỜ XÁC NHẬN":
-                displayText = "Chờ xác nhận";
-                chipColor = ColorStateList.valueOf(Color.parseColor("#9C27B0"));
-                iconRes = R.drawable.ic_pending;
+                holder.mbBuyAgain.setVisibility(View.VISIBLE);
                 holder.mbBuyAgain.setOnClickListener(v -> {
                     Intent intent = new Intent(holder.itemView.getContext(), PaymentActivity.class);
                     intent.putExtra("orderId", order.getOrderId());
@@ -94,10 +87,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 });
                 break;
 
+            case "PENDING":
+            case "CHỜ XÁC NHẬN":
+                displayText = "Chờ xác nhận";
+                chipColor = ColorStateList.valueOf(Color.parseColor("#9C27B0"));
+                iconRes = R.drawable.ic_pending;
+                holder.mbBuyAgain.setVisibility(View.GONE);
+                break;
+
             default:
                 displayText = order.getOrderStatus();
                 chipColor = ColorStateList.valueOf(Color.parseColor("#8189f0"));
                 iconRes = R.drawable.ic_shipping;
+                holder.mbBuyAgain.setVisibility(View.GONE);
                 break;
         }
         holder.txtOrderStatus.setText(displayText);
