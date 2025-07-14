@@ -15,6 +15,7 @@ import com.example.aqualife.network.ApiClient;
 import com.example.aqualife.payload.request.SignInRequest;
 import com.example.aqualife.payload.response.SignInResponse;
 import com.example.aqualife.services.AuthService;
+import com.example.aqualife.util.NotificationHelper;
 import com.example.aqualife.util.UserSessionManager;
 import com.example.aqualife.util.ValidationUtils;
 
@@ -163,6 +164,10 @@ public class LoginActivity extends AppCompatActivity {
     private void handleSuccessfulLogin(SignInResponse response) {
         // Save user data and token to SharedPreferences
         saveUserSession(response);
+
+        // Register FCM token after successful login
+        Log.d(TAG, "Registering FCM token after login");
+        NotificationHelper.registerFCMToken(this);
 
         // Navigate to main activity
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);

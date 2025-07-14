@@ -90,4 +90,7 @@ dependencies {
     implementation("commons-codec:commons-codec:1.14")
 
     implementation(files("lib/zpdk-release-v3.1.aar"))
+
+    implementation("com.google.firebase:firebase-messaging")
+    implementation ("com.jakewharton.threetenabp:threetenabp:1.4.6")
 }
