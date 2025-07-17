@@ -12,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +42,7 @@ import com.example.aqualife.model.CartResponse;
 import com.example.aqualife.model.CreateOrder;
 import com.example.aqualife.model.OrderRequest;
 import com.example.aqualife.model.OrderResponse;
+import com.example.aqualife.model.PaymentMethod;
 import com.example.aqualife.model.PaymentRequest;
 import com.example.aqualife.model.Product;
 import com.example.aqualife.model.Response;
@@ -84,6 +88,9 @@ public class CheckoutFragment extends Fragment {
     private ActivityResultLauncher<Intent> selectAddressLauncher;
     private ActivityResultLauncher<Intent> payLauncher;
     private CartResponse cart;
+    private EditText edtDescription;
+    private RadioGroup rgPaymentMethod;
+    private RadioButton rbTienMat, rbZaloPay;
 
     @Nullable
     @Override
@@ -116,6 +123,42 @@ public class CheckoutFragment extends Fragment {
         btnPlaceOrder = root.findViewById(R.id.btnPlaceOrder);
 
         tvChangeAddress = root.findViewById(R.id.tvChangeAddress);
+
+        edtDescription = root.findViewById(R.id.edtDescription);
+        rgPaymentMethod = root.findViewById(R.id.rgPaymentMethod);
+        rbTienMat = root.findViewById(R.id.rbTienMat);
+        rbZaloPay = root.findViewById(R.id.rbZaloPay);
+
+        TextView txtPaymentMethod = root.findViewById(R.id.txtPaymentMethod);
+        rgPaymentMethod.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rbTienMat) {
+                txtPaymentMethod.setText("Thanh toán bằng Tiền mặt");
+                txtPaymentMethod.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                txtPaymentMethod.setTextSize(18);
+                txtPaymentMethod.setTypeface(null, android.graphics.Typeface.BOLD);
+            } else if (checkedId == R.id.rbZaloPay) {
+                txtPaymentMethod.setText("Thanh toán bằng ZaloPay");
+                txtPaymentMethod.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+                txtPaymentMethod.setTextSize(18);
+                txtPaymentMethod.setTypeface(null, android.graphics.Typeface.BOLD);
+            }
+        });
+
+        rgPaymentMethod.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rbTienMat) {
+                txtPaymentMethod.setText("Thanh toán bằng Tiền mặt");
+                txtPaymentMethod.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                txtPaymentMethod.setTextSize(18);
+                txtPaymentMethod.setTypeface(null, android.graphics.Typeface.BOLD);
+                btnPlaceOrder.setText("Đặt hàng");
+            } else if (checkedId == R.id.rbZaloPay) {
+                txtPaymentMethod.setText("Thanh toán bằng ZaloPay");
+                txtPaymentMethod.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+                txtPaymentMethod.setTextSize(18);
+                txtPaymentMethod.setTypeface(null, android.graphics.Typeface.BOLD);
+                btnPlaceOrder.setText("Thanh toán");
+            }
+        });
 
         cart = (CartResponse) getArguments().getSerializable("cart");
         account = (AccountInfor) getArguments().getSerializable("account");
@@ -222,22 +265,44 @@ public class CheckoutFragment extends Fragment {
             return;
         }
 
+        String description = edtDescription.getText().toString().trim();
+        PaymentMethod paymentMethodEnum;
+        int checkedId = rgPaymentMethod.getCheckedRadioButtonId();
+        if (checkedId == R.id.rbTienMat) {
+            paymentMethodEnum = PaymentMethod.Cash;
+        } else if (checkedId == R.id.rbZaloPay) {
+            paymentMethodEnum = PaymentMethod.ZaloPay;
+        } else {
+            Toast.makeText(getContext(), "Vui lòng chọn phương thức thanh toán", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String paymentMethod = paymentMethodEnum.name();
+
         OrderRequest request = new OrderRequest();
         request.setAccountAddId(defaultAddress.getAccountAddId());
         request.setCartId(cart.getCartId());
+        request.setDescription(description.isEmpty() ? null : description);
 
         OrderAPI orderAPI = ApiClient.getAuthenticatedClient(requireContext())
                 .create(OrderAPI.class);
 
-        orderAPI.createOrder(request).enqueue(new Callback<Response<OrderResponse>>() {
+        orderAPI.createOrder(paymentMethod, request).enqueue(new Callback<Response<OrderResponse>>() {
             @Override
             public void onResponse(Call<Response<OrderResponse>> call, retrofit2.Response<Response<OrderResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(getContext(), "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(requireContext(), PaymentActivity.class);
-                    intent.putExtra("orderId", response.body().getData().getOrderId());
-                    intent.putExtra("cart", cart);
-                    payLauncher.launch(intent);
+                    if ("ZaloPay".equals(paymentMethod)) {
+                        Intent intent = new Intent(requireContext(), PaymentActivity.class);
+                        intent.putExtra("orderId", response.body().getData().getOrderId());
+                        intent.putExtra("cart", cart);
+                        payLauncher.launch(intent);
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("account", account);
+                        NavController navController = NavHostFragment.findNavController(CheckoutFragment.this);
+                        navController.navigate(R.id.navigation_order, bundle);
+                    }
                 } else {
                     Toast.makeText(getContext(), "Không thể tạo đơn hàng: " + response.code(), Toast.LENGTH_SHORT).show();
                 }

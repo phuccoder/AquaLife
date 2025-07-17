@@ -96,6 +96,68 @@
                 android:layout_marginTop="16dp"
                 android:nestedScrollingEnabled="false" />
 
+            <!-- Add below Payment Method section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/white"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ghi chú (tuỳ chọn)"
+                    android:textColor="#212121" />
+
+                <EditText
+                    android:id="@+id/edtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nhập ghi chú cho đơn hàng"
+                    android:inputType="textMultiLine"
+                    android:minLines="2"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/white"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chọn phương thức thanh toán"
+                    android:textColor="#212121" />
+
+                <RadioGroup
+                    android:id="@+id/rgPaymentMethod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <RadioButton
+                        android:id="@+id/rbTienMat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tiền mặt"
+                        android:checked="true" />
+
+                    <RadioButton
+                        android:id="@+id/rbZaloPay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ZaloPay"
+                        android:layout_marginStart="24dp" />
+                </RadioGroup>
+            </LinearLayout>
+
             <!-- Payment Method -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -116,7 +178,7 @@
                     android:id="@+id/txtPaymentMethod"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Thanh toán bằng Zalo Pay"
+                    android:text="Hãy chọn phương thức thanh toán"
                     android:textColor="#757575"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
@@ -161,6 +223,7 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
 
     <!-- Bottom Bar -->
     <LinearLayout

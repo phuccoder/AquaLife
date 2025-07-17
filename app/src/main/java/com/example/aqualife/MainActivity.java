@@ -1,5 +1,8 @@
 package com.example.aqualife;
 
+import static android.content.ContentValues.TAG;
+import static com.google.firebase.FirebaseApp.initializeApp;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -7,9 +10,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,9 +30,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
+import com.example.aqualife.util.PermissionManager;
+import com.example.aqualife.util.UserSessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.aqualife.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
         setupNavigation();
         setupDrawer();
+        checkPermissions();
+    }
+
+    private void initializeApp() {
+        Log.d(TAG, "App initialization started.");
+        Toast.makeText(this, "Welcome to AquaLife!", Toast.LENGTH_SHORT).show();
+
     }
 
     private void setupToolbar() {
@@ -150,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("Đăng xuất")
                 .setMessage("Bạn có chắc chắn muốn đăng xuất?")
                 .setPositiveButton("Đăng xuất", (dialog, which) -> {
-                    clearUserSession();
+                    new UserSessionManager(this).logoutUser();
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
@@ -158,6 +174,83 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("Hủy", null)
                 .show();
+    }
+
+    private void checkPermissions() {
+        PermissionManager.checkAndRequestAllPermissions(this, new PermissionManager.PermissionCallback() {
+            @Override
+            public void onPermissionGranted() {
+                Log.d(TAG, "All permissions granted!");
+                initializeApp();
+            }
+
+            @Override
+            public void onPermissionDenied(String[] deniedPermissions) {
+                Log.w(TAG, "Some permissions denied: " + Arrays.toString(deniedPermissions));
+                // Hiển thị dialog giải thích
+                showPermissionExplanationDialog(deniedPermissions);
+            }
+        });
+    }
+
+    private void showPermissionExplanationDialog(String[] deniedPermissions) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Cần cấp quyền")
+                .setMessage("Ứng dụng cần các quyền này để hoạt động tốt:\n" +
+                        "- Thông báo: Để gửi thông báo quan trọng\n" +
+                        "- Rung: Để nhắc nhở khi có thông báo\n" +
+                        "- Không làm phiền: Để hiển thị thông báo ngay cả khi điện thoại ở chế độ im lặng")
+                .setPositiveButton("Cấp quyền", (dialog, which) -> {
+                    PermissionManager.openAppSettings(this);
+                })
+                .setNegativeButton("Bỏ qua", (dialog, which) -> {
+                    // Vẫn cho phép sử dụng app nhưng hạn chế tính năng
+                    initializeApp();
+                })
+                .setCancelable(false)
+                .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        PermissionManager.handlePermissionResult(this, requestCode, permissions, grantResults,
+                new PermissionManager.PermissionCallback() {
+                    @Override
+                    public void onPermissionGranted() {
+                        Log.d(TAG, "Permission granted after request");
+                        initializeApp();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(String[] deniedPermissions) {
+                        Log.w(TAG, "Permission still denied: " + Arrays.toString(deniedPermissions));
+                        showPermissionExplanationDialog(deniedPermissions);
+                    }
+                });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        PermissionManager.handleActivityResult(this, requestCode,
+                new PermissionManager.PermissionCallback() {
+                    @Override
+                    public void onPermissionGranted() {
+                        Log.d(TAG, "Do Not Disturb permission granted");
+                        initializeApp();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(String[] deniedPermissions) {
+                        Log.w(TAG, "Do Not Disturb permission denied");
+                        // Vẫn cho phép sử dụng app
+                        initializeApp();
+                    }
+                });
     }
 
     private void clearUserSession() {

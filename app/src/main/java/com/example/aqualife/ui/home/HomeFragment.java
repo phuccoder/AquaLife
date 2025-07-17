@@ -35,6 +35,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.aqualife.LoginActivity;
 import com.example.aqualife.MainActivity;
+import com.example.aqualife.NotificationActivity;
 import com.example.aqualife.R;
 import com.example.aqualife.adapter.BannerAdapter;
 import com.example.aqualife.adapter.ProductAdapter;
@@ -66,7 +67,6 @@ import retrofit2.HttpException;
 public class HomeFragment extends Fragment {
 
     private View root;
-    private MaterialCardView searchButton;
     private MaterialCardView searchBarContainer;
     private ImageView menuButton;
     private ImageView closeSearchButton;
@@ -98,6 +98,9 @@ public class HomeFragment extends Fragment {
     private Button tankViewMoreBtn;
     private Button foodViewMoreBtn;
     private Button medicineViewMoreBtn;
+
+    private MaterialCardView btCart;
+    private MaterialCardView btNotification;
 
     private static final int PRODUCTS_PER_SECTION = 10;
 
@@ -131,13 +134,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void initializeViews() {
-        searchButton = root.findViewById(R.id.searchButton);
         searchBarContainer = root.findViewById(R.id.searchBarContainer);
         menuButton = root.findViewById(R.id.menuButton);
         closeSearchButton = root.findViewById(R.id.closeSearchButton);
         searchEditText = root.findViewById(R.id.searchEditText);
         mainScrollView = root.findViewById(R.id.mainScrollView);
         loginTextView = root.findViewById(R.id.loginText);
+        btCart = root.findViewById(R.id.cart);
+        btNotification = root.findViewById(R.id.notification);
 
         // Initialize banner views
         bannerViewPager = root.findViewById(R.id.bannerViewPager);
@@ -484,15 +488,36 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupClickListeners() {
-        searchButton.setOnClickListener(v -> showSearchBar());
-
-        closeSearchButton.setOnClickListener(v -> hideSearchBar());
 
         menuButton.setOnClickListener(v -> openNavigationMenu());
 
         loginTextView.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
+        });
+
+        btCart.setOnClickListener(v -> {
+            if (isLoggedIn) {
+                NavController navController = NavHostFragment.findNavController(this);
+                navController.navigate(R.id.navigation_shopping_cart);
+            } else {
+                Toast.makeText(requireContext(), "Vui lòng đăng nhập để xem giỏ hàng",
+                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(requireContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btNotification.setOnClickListener(v -> {
+            if (isLoggedIn) {
+                Intent intent = new Intent(requireContext(), NotificationActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(requireContext(), "Vui lòng đăng nhập để xem thông báo",
+                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(requireContext(), LoginActivity.class);
+                startActivity(intent);
+            }
         });
     }
 

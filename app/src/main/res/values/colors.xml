@@ -5,10 +5,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#F44336</color>
     <color name="green">#4CAF50</color>
+    <color name="gray">#B0BEC5</color> <!-- Added for checkpoint inactive state -->
+    <color name="gray_text">#757575</color> <!-- Added for checkpoint inactive text -->
 
     <!-- Custom Brand Colors -->
-    <color name="main_blue">#1d80b4</color> <!-- tao moi -->
-    <color name="main_green">#39b15a</color> <!-- tao moi -->
+    <color name="main_blue">#1d80b4</color>
+    <color name="main_green">#39b15a</color>
 
     <!-- Material Design Colors -->
     <color name="teal_700">#018786</color>

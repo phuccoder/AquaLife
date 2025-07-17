@@ -9,7 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "http://103.245.236.207:8080/";
+    private static final String BASE_URL = "https://103.245.236.207/";
     private static Retrofit retrofit;
 
     public static Retrofit getClient() {
@@ -17,7 +17,7 @@ public class ApiClient {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+            OkHttpClient.Builder httpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
             httpClient.addInterceptor(logging);
 
             retrofit = new Retrofit.Builder()
@@ -33,7 +33,7 @@ public class ApiClient {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        OkHttpClient.Builder httpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
         httpClient.addInterceptor(logging);
         httpClient.addInterceptor(new AuthInterceptor(context));
 

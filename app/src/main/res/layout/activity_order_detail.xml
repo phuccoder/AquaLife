@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@android:color/white">
+            app:navigationIconTint="@android:color/white"
+            app:menu="@menu/menu_order_detail">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -46,6 +47,288 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <!-- Order Progress Checkpoint -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp"
+                android:backgroundTint="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tiến trình đơn hàng"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#212121"
+                        android:layout_marginBottom="16dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <!-- Step 1: Chờ xác nhận -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/imgStep1"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_check_circle"
+                                app:tint="#B0BEC5" />
+
+                            <TextView
+                                android:id="@+id/txtStep1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Chờ xác nhận"
+                                android:textSize="12sp"
+                                android:textColor="#757575"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center" />
+
+                        </LinearLayout>
+
+                        <!-- Connector Line -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_weight="1"
+                            android:background="#B0BEC5"
+                            android:layout_marginTop="12dp" />
+
+                        <!-- Step 2: Chủ cửa hàng đã xác nhận -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/imgStep2"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_check_circle"
+                                app:tint="#B0BEC5" />
+
+                            <TextView
+                                android:id="@+id/txtStep2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Đã xác nhận"
+                                android:textSize="12sp"
+                                android:textColor="#757575"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center" />
+
+                        </LinearLayout>
+
+                        <!-- Connector Line -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_weight="1"
+                            android:background="#B0BEC5"
+                            android:layout_marginTop="12dp" />
+
+                        <!-- Step 3: Đơn đang được giao -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/imgStep3"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_check_circle"
+                                app:tint="#B0BEC5" />
+
+                            <TextView
+                                android:id="@+id/txtStep3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Đang giao"
+                                android:textSize="12sp"
+                                android:textColor="#757575"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center" />
+
+                        </LinearLayout>
+
+                        <!-- Connector Line -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_weight="1"
+                            android:background="#B0BEC5"
+                            android:layout_marginTop="12dp" />
+
+                        <!-- Step 4: Hoàn thành đơn hàng -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/imgStep4"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_check_circle"
+                                app:tint="#B0BEC5" />
+
+                            <TextView
+                                android:id="@+id/txtStep4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hoàn thành"
+                                android:textSize="12sp"
+                                android:textColor="#757575"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/txtOrderNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ghi chú trạng thái đơn hàng"
+                android:textSize="16sp"
+                android:textColor="#212121"
+                android:padding="12dp"
+                android:background="@drawable/bg_support_section"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Customer Support Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp"
+                android:backgroundTint="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_support"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hỗ trợ khách hàng"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#212121"
+                            android:layout_marginStart="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/bg_support_section"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_phone"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hotline hỗ trợ"
+                                android:textColor="#757575"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/txtSupportPhone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0967630810"
+                                android:textColor="#4CAF50"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="4dp" />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnCallSupport"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Gọi ngay"
+                            android:textColor="@android:color/white"
+                            android:backgroundTint="#4CAF50"
+                            app:cornerRadius="8dp"
+                            app:icon="@drawable/ic_phone"
+                            app:iconTint="@android:color/white"
+                            app:iconSize="16dp"
+                            android:textSize="12sp"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:padding="12dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Shipping Info Card -->
             <com.google.android.material.card.MaterialCardView
@@ -343,7 +626,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="90dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
                 app:strokeWidth="0dp"
@@ -393,5 +676,24 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <!-- Fixed Bottom Cancel Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCancelOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Huỷ đơn hàng"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="#F44336"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_cancel"
+        app:iconTint="@android:color/white"
+        app:iconSize="20dp"
+        android:padding="16dp"
+        android:layout_gravity="bottom"
+        android:visibility="visible" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

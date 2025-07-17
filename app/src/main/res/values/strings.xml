@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AquaLife</string>
     <string name="title_home">Home</string>
@@ -14,4 +15,48 @@
         <item>priceAsc</item>
         <item>priceDesc</item>
     </string-array>
+
+    <string name="order_info_title">Chi tiết đơn hàng của bạn</string>
+    <string name="shipping_policy">
+    <![CDATA[
+    • <b><font color=\'#4CAF50\'>AquaLife</font></b> luôn sẵn sàng giao hàng tận nơi <b><font color=\'#4CAF50\'>miễn phí</font></b><br/>
+    • Chúng tôi sẽ <b><font color=\'#4CAF50\'>gọi điện xác nhận</font></b> địa chỉ và thời gian giao hàng thật thuận tiện<br/>
+    • Khi đơn hàng được xác nhận, trạng thái sẽ chuyển sang <b><font color=\'#4CAF50\'>\'Đang giao\'</font></b><br/>
+    • Thời gian giao hàng sẽ được <b><font color=\'#4CAF50\'>thông báo chi tiết</font></b> khi xác nhận
+    ]]>
+</string>
+    <string name="cancel_policy">
+    <![CDATA[
+    • Quý khách có thể hủy đơn khi đơn hàng đang ở trạng thái <b><font color=\'#4CAF50\'>\'Chờ xác nhận\'</font></b><br/>
+    • Hủy dễ dàng trong vòng <b><font color=\'#4CAF50\'>30 phút sau khi đặt hàng</font></b> (áp dụng cho đơn chưa xác nhận)
+    ]]>
+</string>
+    <string name="cannot_cancel_policy">
+    <![CDATA[
+    • Rất tiếc, quý khách không thể hủy nếu đơn hàng đã rời khỏi trạng thái <b><font color=\'#4CAF50\'>\'Chờ xác nhận\'</font></b> hoặc đã bị hủy trước đó<br/>
+    • Sau khi <b><font color=\'#4CAF50\'>AquaLife xác nhận</font></b> và bắt đầu chuẩn bị giao, đơn hàng sẽ <b><font color=\'#4CAF50\'>không thể hủy</font></b>
+    ]]>
+</string>
+    <string name="refund_policy">
+    <![CDATA[
+    • <b><font color=\'#4CAF50\'>Hoàn tiền 100%</font></b> khi hủy đơn hàng hợp lệ<br/>
+    • <b><font color=\'#4CAF50\'>AquaLife</font></b> sẽ liên hệ trong vòng <b><font color=\'#4CAF50\'>1–2 ngày</font></b> để xử lý hoàn tiền<br/>
+    • Hoàn tiền được xử lý <b><font color=\'#4CAF50\'>thủ công</font></b> để đảm bảo an toàn và minh bạch<br/>
+    • Số tiền sẽ được hoàn về <b><font color=\'#4CAF50\'>tài khoản thanh toán ban đầu</font></b><br/>
+    • Giao hàng miễn phí nên quý khách <b><font color=\'#4CAF50\'>không phát sinh phí hoàn lại</font></b>
+    ]]>
+</string>
+    <string name="contact_support_intro">
+    <![CDATA[
+    <b><font color=\'#4CAF50\'>AquaLife</font></b> luôn sẵn sàng đồng hành cùng bạn. Quý khách có thể liên hệ với chúng tôi qua:
+    ]]>
+</string>
+    <string name="important_notes">
+    <![CDATA[
+    • Quý khách vui lòng <b><font color=\'#4CAF50\'>kiểm tra kỹ thông tin</font></b> trước khi đặt hàng<br/>
+    • Đảm bảo <b><font color=\'#4CAF50\'>số điện thoại</font></b> luôn sẵn sàng để AquaLife liên hệ<br/>
+    • Hủy đơn hàng nhiều lần có thể <b><font color=\'#4CAF50\'>ảnh hưởng đến tài khoản</font></b><br/>
+    • Mọi thắc mắc, đừng ngần ngại <b><font color=\'#4CAF50\'>liên hệ hotline</font></b> để được hỗ trợ nhanh chóng
+    ]]>
+</string>
 </resources>

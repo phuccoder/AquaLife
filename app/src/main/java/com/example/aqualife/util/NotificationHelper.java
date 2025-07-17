@@ -33,9 +33,12 @@ public class NotificationHelper {
             NotificationChannel channel = new NotificationChannel(
                     NotificationService.CHANNEL_ID,
                     NotificationService.CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    NotificationManager.IMPORTANCE_HIGH
             );
             channel.setDescription(NotificationService.CHANNEL_DESCRIPTION);
+            channel.enableLights(true);
+            channel.enableVibration(true);
+            channel.setShowBadge(true);
 
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
@@ -49,12 +52,14 @@ public class NotificationHelper {
                 context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NotificationService.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)
+                .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setFullScreenIntent(pendingIntent, false);
 
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);

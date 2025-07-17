@@ -170,24 +170,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <!-- Search Button -->
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/searchButton"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginEnd="8dp"
-                            app:cardBackgroundColor="@color/main_green"
-                            app:cardCornerRadius="20dp"
-                            app:cardElevation="2dp">
-
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_search"
-                                app:tint="@color/white" />
-                        </com.google.android.material.card.MaterialCardView>
-
                         <!-- Cart Button -->
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/cart"

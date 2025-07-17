@@ -47,7 +47,6 @@ public class NotificationActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     if (notifications != null && !notifications.isEmpty()) {
                         adapter.setNotifications(notifications);
-                        Log.d(TAG, "Loaded " + notifications.size() + " notifications");
                     } else {
                         Toast.makeText(NotificationActivity.this, "No notifications found", Toast.LENGTH_SHORT).show();
                     }
@@ -58,7 +57,6 @@ public class NotificationActivity extends AppCompatActivity {
             public void onFailure(String error) {
                 runOnUiThread(() -> {
                     Toast.makeText(NotificationActivity.this, "Failed to load notifications: " + error, Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "Failed to load notifications: " + error);
                 });
             }
         });

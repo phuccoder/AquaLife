@@ -13,10 +13,12 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface OrderAPI {
     @POST("api/orders")
     Call<Response<OrderResponse>> createOrder(
+            @Query("paymentMethod") String paymentMethod,
             @Body OrderRequest request
     );
     @POST("api/orders/{id}/cancel")
