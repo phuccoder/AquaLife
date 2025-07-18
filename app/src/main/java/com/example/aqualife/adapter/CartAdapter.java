@@ -32,7 +32,9 @@ import com.example.aqualife.services.ProductAPI;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -104,13 +106,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             public void onResponse(Call<Response<Product>> call, retrofit2.Response<Response<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Product product = response.body().getData();
+                    NumberFormat currencyFormat = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+                    currencyFormat.setMaximumFractionDigits(0);
 
                     holder.txtProductName.setText(product.getProductName());
-                    holder.txtProductPrice.setText("₫" + product.getPrice());
+                    holder.txtProductPrice.setText(currencyFormat.format(product.getPrice()) + " VNĐ");
+                    holder.txtTotalPrice.setText("Thành tiền: " + currencyFormat.format(item.getPrice()) + " VNĐ");
                     holder.txtQuantity.setText(String.valueOf(item.getQuantity()));
-                    holder.txtTotalPrice.setText("Thành tiền: " + item.getPrice());
+
                     int[] quantity = { item.getQuantity() };
                     double unitPrice = product.getPrice();
+
 
                     Glide.with(context)
                             .load(product.getImageUrl())
@@ -120,7 +126,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     holder.btnPlus.setOnClickListener(v -> {
                         quantity[0]++;
                         holder.txtQuantity.setText(String.valueOf(quantity[0]));
-                        holder.txtProductPrice.setText("₫" + (int)(quantity[0] * unitPrice));
+
+                        double totalPrice = quantity[0] * unitPrice;
+                        holder.txtProductPrice.setText(currencyFormat.format(unitPrice) + " VNĐ");
+                        holder.txtTotalPrice.setText("Thành tiền: " + currencyFormat.format(totalPrice) + " VNĐ");
+
                         scheduleUpdate(holder, item, quantity[0]);
                     });
 
@@ -128,7 +138,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                         if (quantity[0] > 1) {
                             quantity[0]--;
                             holder.txtQuantity.setText(String.valueOf(quantity[0]));
-                            holder.txtProductPrice.setText("₫" + (int)(quantity[0] * unitPrice));
+
+                            double totalPrice = quantity[0] * unitPrice;
+                            holder.txtProductPrice.setText(currencyFormat.format(unitPrice) + " VNĐ");
+                            holder.txtTotalPrice.setText("Thành tiền: " + currencyFormat.format(totalPrice) + " VNĐ");
+
                             scheduleUpdate(holder, item, quantity[0]);
                         }
                     });

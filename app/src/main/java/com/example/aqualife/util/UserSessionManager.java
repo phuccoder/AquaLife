@@ -36,6 +36,11 @@ public class UserSessionManager {
         editor.apply();
     }
 
+    public void saveAccountId(int accountId) {
+        editor.putString(KEY_USER_ID, String.valueOf(accountId));
+        editor.apply();
+    }
+
     public boolean isLoggedIn() {
         return preferences.getBoolean(KEY_IS_LOGGED_IN, false);
     }

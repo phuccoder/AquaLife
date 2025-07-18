@@ -25,6 +25,7 @@ public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.
     private List<Product> products = new ArrayList<>();
     private OnItemClickListener listener;
     private OnProductClickListener productClickListener;
+
     public interface OnItemClickListener {
         void onItemClick(Product product);
     }
@@ -37,12 +38,27 @@ public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.
         this.productClickListener = productClickListener;
     }
 
+    // Method to set new products (clear existing and add new)
     public void setProducts(List<Product> products) {
-        if(this.products.isEmpty()){
-            this.products = products;
-        }else{
+        this.products.clear();
+        if (products != null) {
             this.products.addAll(products);
         }
+        notifyDataSetChanged();
+    }
+
+    // Method to add more products (for pagination)
+    public void addProducts(List<Product> products) {
+        if (products != null && !products.isEmpty()) {
+            int startPosition = this.products.size();
+            this.products.addAll(products);
+            notifyItemRangeInserted(startPosition, products.size());
+        }
+    }
+
+    // Method to clear all products
+    public void clearProducts() {
+        this.products.clear();
         notifyDataSetChanged();
     }
 
@@ -59,7 +75,7 @@ public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.
         Product product = products.get(position);
         holder.bind(product);
         holder.itemView.setOnClickListener(v -> {
-            if(productClickListener != null){
+            if (productClickListener != null) {
                 productClickListener.onProductClick(product);
             }
         });
@@ -95,6 +111,8 @@ public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.
                         .load(product.getImageUrl())
                         .placeholder(R.drawable.placeholder_image)
                         .into(productImage);
+            } else {
+                productImage.setImageResource(R.drawable.placeholder_image);
             }
 
             btnOpenAddToCart.setOnClickListener(v -> {

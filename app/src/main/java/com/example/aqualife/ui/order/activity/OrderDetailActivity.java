@@ -30,6 +30,7 @@ import com.example.aqualife.model.Response;
 import com.example.aqualife.model.ShippingResponse;
 import com.example.aqualife.network.ApiClient;
 import com.example.aqualife.services.AddressAPI;
+import com.example.aqualife.services.OrderAPI;
 import com.example.aqualife.services.ShippingAPI;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -249,9 +250,27 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         txtOrderIdConfirm.setText("Mã đơn hàng: #" + orderId);
 
-        btnCancelDialog.setOnClickListener(v -> dialog.dismiss());
         btnConfirmCancel.setOnClickListener(v -> {
-            Toast.makeText(OrderDetailActivity.this, "Đơn hàng đã được hủy (demo)", Toast.LENGTH_SHORT).show();
+            int orderIdInt = Integer.parseInt(orderId);
+            OrderAPI orderAPI = ApiClient.getAuthenticatedClient(this)
+                    .create(OrderAPI.class);
+
+            orderAPI.preCancelOrder(orderIdInt).enqueue(new Callback<Response<String>>() {
+                @Override
+                public void onResponse(Call<Response<String>> call, retrofit2.Response<Response<String>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        Toast.makeText(OrderDetailActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        finish(); // Optionally close activity
+                    } else {
+                        Toast.makeText(OrderDetailActivity.this, "Failed to cancel order", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Response<String>> call, Throwable t) {
+                    Toast.makeText(OrderDetailActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
             dialog.dismiss();
         });
 

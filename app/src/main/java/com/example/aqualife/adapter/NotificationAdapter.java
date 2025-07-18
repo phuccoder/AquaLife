@@ -13,6 +13,9 @@ import com.example.aqualife.payload.response.NotificationResponse;
 
 import org.threeten.bp.format.DateTimeFormatter;
 
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeParseException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,8 +62,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public void bind(NotificationResponse notification) {
             textMessage.setText(notification.getMessage());
 
+            // Convert createAt (String) to LocalDateTime
             if (notification.getCreateAt() != null) {
-                textDate.setText(notification.getCreateAt().format(formatter));
+                try {
+                    LocalDateTime dateTime = LocalDateTime.parse(notification.getCreateAt());
+                    textDate.setText(dateTime.format(formatter));
+                } catch (DateTimeParseException e) {
+                    textDate.setText(notification.getCreateAt());
+                }
             }
 
             // Show/hide read indicator
@@ -70,5 +79,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 indicatorRead.setVisibility(View.VISIBLE);
             }
         }
+
     }
 }

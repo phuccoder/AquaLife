@@ -41,6 +41,7 @@ import com.example.aqualife.services.ProductAPI;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,9 +64,11 @@ public class ProductListFragment extends Fragment {
     private ProgressBar progressBar;
     private String selectedProductType = null;
     private int pageNumber = 0;
-    private final int pageSize = 10;
-    private int productSize = 0;
+    private final int pageSize = 11;
     private boolean isLastPage = false;
+    private boolean isLoading = false;
+    private boolean isFirstLoad = true;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,8 +90,10 @@ public class ProductListFragment extends Fragment {
         btnSearch = root.findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(v -> {
             String keyword = edtKeyword.getText().toString().trim();
+            // Reset pagination for new search
+            resetPagination();
             fetchProducts(selectedProductType != null ? selectedProductType : productType,
-                    keyword, minPrice, maxPrice, currentSortBy);
+                    keyword, minPrice, maxPrice, currentSortBy, false);
         });
 
         recyclerView = root.findViewById(R.id.recyclerProducts);
@@ -109,20 +114,30 @@ public class ProductListFragment extends Fragment {
                 }
             }
         });
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                if (productSize != 0 && layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == productSize - 1 && !isLastPage) {
-                    pageNumber += 1;
-                    String keyword = edtKeyword.getText().toString().trim();
-                    fetchProducts(selectedProductType != null ? selectedProductType : productType,
-                            keyword, minPrice, maxPrice, currentSortBy);
+                GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+                if (layoutManager != null && !isLoading && !isLastPage) {
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                            && firstVisibleItemPosition >= 0) {
+                        // Load next page
+                        pageNumber++;
+                        String keyword = edtKeyword.getText().toString().trim();
+                        fetchProducts(selectedProductType != null ? selectedProductType : productType,
+                                keyword, minPrice, maxPrice, currentSortBy, true);
+                    }
                 }
             }
         });
+
         adapter = new ProductGridAdapter();
         recyclerView.setAdapter(adapter);
 
@@ -133,6 +148,7 @@ public class ProductListFragment extends Fragment {
             NavController navController = NavHostFragment.findNavController(this);
             navController.navigate(R.id.navigation_productList_to_productDetail, bundle);
         });
+
         progressBar = new ProgressBar(requireContext());
         progressBar.setId(View.generateViewId());
         progressBar.setVisibility(View.GONE);
@@ -149,15 +165,30 @@ public class ProductListFragment extends Fragment {
         layoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
         constraintLayout.addView(progressBar, layoutParams);
 
-        root.post(() -> fetchProducts(productType, null, null, null, null));
+        // Initial load
+        root.post(() -> {
+            resetPagination();
+            fetchProducts(productType, null, null, null, null, false);
+        });
 
         return root;
     }
 
+    private void resetPagination() {
+        pageNumber = 0;
+        isLastPage = false;
+        isLoading = false;
+        if (adapter != null) {
+            adapter.clearProducts();
+        }
+    }
 
-    private void fetchProducts(String type, String keyword, Integer minPrice, Integer maxPrice, String sortBy) {
+    private void fetchProducts(String type, String keyword, Integer minPrice, Integer maxPrice, String sortBy, boolean isLoadMore) {
+        if (isLoading) return;
+
         showLoading(true);
-        if (isLastPage) return;
+        isLoading = true;
+
         ProductAPI api = ApiClient.getAuthenticatedClient(requireContext())
                 .create(ProductAPI.class);
 
@@ -169,30 +200,46 @@ public class ProductListFragment extends Fragment {
             public void onResponse(Call<com.example.aqualife.model.Response<ProductListData>> call,
                                    Response<com.example.aqualife.model.Response<ProductListData>> response) {
                 showLoading(false);
+                isLoading = false;
 
                 if (response.isSuccessful() && response.body() != null &&
                         response.body().getData() != null) {
 
-                    List<Product> products = response.body().getData().getProducts();
+                    ProductListData data = response.body().getData();
+                    List<Product> products = data.getProducts();
+
                     if (products != null && !products.isEmpty()) {
-                        adapter.setProducts(products);
+                        if (isLoadMore) {
+                            adapter.addProducts(products);
+                        } else {
+                            adapter.setProducts(products);
+                        }
+
                         recyclerView.setVisibility(View.VISIBLE);
                         tvEmpty.setVisibility(View.GONE);
-                        productSize += products.size();
-                        isLastPage = response.body().getData().getCurrentPage() == (response.body().getData().getTotalPages() - 1);
-                    } else {
+
+                        // Update pagination info
+                        isLastPage = data.getCurrentPage() >= (data.getTotalPages() - 1);
+
+                    } else if (!isLoadMore) {
+                        // Only show empty state if it's not a load more operation
                         recyclerView.setVisibility(View.GONE);
                         tvEmpty.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    handleErrorResponse(response.code());
+                    if (!isLoadMore) {
+                        handleErrorResponse(response.code());
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<com.example.aqualife.model.Response<ProductListData>> call, Throwable t) {
                 showLoading(false);
-                handleFailure(t);
+                isLoading = false;
+                if (!isLoadMore) {
+                    handleFailure(t);
+                }
             }
         });
     }
@@ -262,7 +309,6 @@ public class ProductListFragment extends Fragment {
         AlertDialog dialog = builder.create();
 
         btnApply.setOnClickListener(v -> {
-
             String keyword = edtKeyword.getText().toString().trim();
 
             Integer minPriceValue = null;
@@ -318,9 +364,9 @@ public class ProductListFragment extends Fragment {
 
             this.selectedProductType = apiProductType;
 
-            showLoading(true);
-
-            fetchProducts(this.selectedProductType, keyword, this.minPrice, this.maxPrice, this.currentSortBy);
+            // Reset pagination for new filter
+            resetPagination();
+            fetchProducts(this.selectedProductType, keyword, this.minPrice, this.maxPrice, this.currentSortBy, false);
             dialog.dismiss();
         });
 
@@ -482,14 +528,6 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        pageNumber = 0;
-        productSize = 0;
-        isLastPage = false;
-        if (adapter != null) {
-            adapter.setProducts(new java.util.ArrayList<>());
-        }
-        String productType = requireArguments().getString("productType");
-        fetchProducts(selectedProductType != null ? selectedProductType : productType,
-                edtKeyword.getText().toString().trim(), minPrice, maxPrice, currentSortBy);
     }
+
 }

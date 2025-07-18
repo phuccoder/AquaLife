@@ -22,6 +22,9 @@ import com.example.aqualife.network.ApiClient;
 import com.example.aqualife.services.ProductAPI;
 import com.google.android.material.button.MaterialButton;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -78,8 +81,11 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
                 if (response.isSuccessful() && response.body() != null) {
                     Product product = response.body().getData();
 
+                    NumberFormat currencyFormat = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+                    currencyFormat.setMaximumFractionDigits(0);
+
                     holder.txtProductName.setText(product.getProductName());
-                    holder.txtPrice.setText("₫" + product.getPrice());
+                    holder.txtPrice.setText(currencyFormat.format(product.getPrice()) + " VNĐ");
                     holder.txtQuantity.setText(String.valueOf(item.getQuantity()));
 
                     Glide.with(context)

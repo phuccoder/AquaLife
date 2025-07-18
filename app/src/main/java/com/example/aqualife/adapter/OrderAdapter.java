@@ -22,6 +22,7 @@ import com.example.aqualife.ui.order.activity.OrderDetailActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,8 +47,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         OrderResponse order = orderList.get(position);
+        NumberFormat currencyFormat = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+        currencyFormat.setMaximumFractionDigits(0); // No decimals
         holder.txtOrderId.setText("Mã đơn: #" + order.getOrderId());
-        holder.txtTotalPrice.setText(order.getTotalPrice() + " VND");
+        holder.txtTotalPrice.setText(currencyFormat.format(order.getTotalPrice()) + " VND");
         setOrderStatus(holder, order);
         holder.txtDate.setText(formatOrderDate(order.getOrderDate()));
         CartItemAdapter cartItemAdapter = new CartItemAdapter(order.getCartItems(), context);
@@ -70,7 +73,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 displayText = "Hoàn thành";
                 chipColor = ColorStateList.valueOf(Color.parseColor("#4CAF50"));
                 iconRes = R.drawable.ic_check_circle;
-                holder.mbBuyAgain.setVisibility(View.GONE);
                 break;
 
             case "CANCEL":
@@ -78,13 +80,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 displayText = "Đã hủy";
                 chipColor = ColorStateList.valueOf(Color.parseColor("#F44336"));
                 iconRes = R.drawable.ic_cancel;
-                holder.mbBuyAgain.setVisibility(View.VISIBLE);
-                holder.mbBuyAgain.setOnClickListener(v -> {
-                    Intent intent = new Intent(holder.itemView.getContext(), PaymentActivity.class);
-                    intent.putExtra("orderId", order.getOrderId());
-                    intent.putExtra("amount", order.getTotalPrice());
-                    v.getContext().startActivity(intent);
-                });
                 break;
 
             case "PENDING":
@@ -92,14 +87,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 displayText = "Chờ xác nhận";
                 chipColor = ColorStateList.valueOf(Color.parseColor("#9C27B0"));
                 iconRes = R.drawable.ic_pending;
-                holder.mbBuyAgain.setVisibility(View.GONE);
                 break;
 
             default:
                 displayText = order.getOrderStatus();
                 chipColor = ColorStateList.valueOf(Color.parseColor("#8189f0"));
                 iconRes = R.drawable.ic_shipping;
-                holder.mbBuyAgain.setVisibility(View.GONE);
                 break;
         }
         holder.txtOrderStatus.setText(displayText);
@@ -126,7 +119,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             txtTotalPrice = itemView.findViewById(R.id.txtTotalPrice);
             rvCartItems = itemView.findViewById(R.id.rvCartItems);
             txtDate = itemView.findViewById(R.id.txtDate);
-            mbBuyAgain = itemView.findViewById(R.id.btnReorder);
         }
     }
     private String formatOrderDate(String orderDate) {

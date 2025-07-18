@@ -32,6 +32,8 @@ import com.example.aqualife.services.CartAPI;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,7 +94,9 @@ public class CartFragment extends Fragment {
                         if (bottomLayout != null) bottomLayout.setVisibility(View.VISIBLE);
                         if (recyclerCart != null) recyclerCart.setVisibility(View.VISIBLE);
 
-                        txtTotal.setText("₫" + items.getTotalPrice());
+                        NumberFormat currencyFormat = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+                        currencyFormat.setMaximumFractionDigits(0);
+                        txtTotal.setText(currencyFormat.format(items.getTotalPrice()) + "VNĐ");
 
                         int itemCount = 0;
                         for (CartItemResponse item : items.getCartItems()) {
@@ -183,23 +187,23 @@ public class CartFragment extends Fragment {
 
     private void handleErrorResponse(int code) {
         if (code == 401) {
-            Toast.makeText(getContext(), "Session expired. Please login again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại", Toast.LENGTH_SHORT).show();
             Intent loginIntent = new Intent(getContext(), LoginActivity.class);
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(loginIntent);
         } else {
-            Toast.makeText(getContext(), "Error: " + code, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Bạn hiện chưa có shopping sản phẩm nào, hãy đặt hàng ngay nhé.", Toast.LENGTH_LONG).show();
         }
     }
 
     private void handleFailure(Throwable t) {
         if (t instanceof HttpException && ((HttpException) t).code() == 401) {
-            Toast.makeText(getContext(), "Session expired. Please login again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại", Toast.LENGTH_SHORT).show();
             Intent loginIntent = new Intent(getContext(), LoginActivity.class);
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(loginIntent);
         } else {
-            Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Bạn hiện chưa có shopping sản phẩm nào, hãy đặt hàng ngay nhé.", Toast.LENGTH_LONG).show();
         }
     }
 }

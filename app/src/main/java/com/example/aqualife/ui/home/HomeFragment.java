@@ -503,8 +503,6 @@ public class HomeFragment extends Fragment {
             } else {
                 Toast.makeText(requireContext(), "Vui lòng đăng nhập để xem giỏ hàng",
                         Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(requireContext(), LoginActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -515,8 +513,6 @@ public class HomeFragment extends Fragment {
             } else {
                 Toast.makeText(requireContext(), "Vui lòng đăng nhập để xem thông báo",
                         Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(requireContext(), LoginActivity.class);
-                startActivity(intent);
             }
         });
     }

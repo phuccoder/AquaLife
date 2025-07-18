@@ -13,7 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aqualife.network.ApiClient;
 import com.example.aqualife.payload.request.SignInRequest;
+import com.example.aqualife.payload.response.AccountResponse;
 import com.example.aqualife.payload.response.SignInResponse;
+import com.example.aqualife.services.AccountService;
 import com.example.aqualife.services.AuthService;
 import com.example.aqualife.util.NotificationHelper;
 import com.example.aqualife.util.UserSessionManager;
@@ -39,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         initializeViews();
         setupListeners();
         authService = ApiClient.getClient().create(AuthService.class);
+        fetchAndSaveAccountId();
     }
 
     private void initializeViews() {
@@ -135,6 +138,24 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this,
                         "Lỗi kết nối: " + t.getMessage(),
                         Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void fetchAndSaveAccountId() {
+        AccountService accountService = ApiClient.getAuthenticatedClient(this).create(AccountService.class);
+        accountService.getCurrentAccount().enqueue(new Callback<com.example.aqualife.model.Response<AccountResponse>>() {
+            @Override
+            public void onResponse(Call<com.example.aqualife.model.Response<AccountResponse>> call, Response<com.example.aqualife.model.Response<AccountResponse>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                    int accountId = response.body().getData().getAccountId();
+                    UserSessionManager sessionManager = new UserSessionManager(LoginActivity.this);
+                    sessionManager.saveAccountId(accountId);
+                    Log.d(TAG, "Account ID saved: " + accountId);
+                }
+            }
+            @Override
+            public void onFailure(Call<com.example.aqualife.model.Response<AccountResponse>> call, Throwable t) {
             }
         });
     }

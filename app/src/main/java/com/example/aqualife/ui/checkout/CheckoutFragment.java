@@ -47,8 +47,10 @@ import com.example.aqualife.model.PaymentRequest;
 import com.example.aqualife.model.Product;
 import com.example.aqualife.model.Response;
 import com.example.aqualife.network.ApiClient;
+import com.example.aqualife.payload.request.NotificationRequest;
 import com.example.aqualife.services.AddressAPI;
 import com.example.aqualife.services.CartAPI;
+import com.example.aqualife.services.NotificationService;
 import com.example.aqualife.services.OrderAPI;
 import com.example.aqualife.services.PaymentAPI;
 import com.example.aqualife.services.ProductAPI;
@@ -160,15 +162,18 @@ public class CheckoutFragment extends Fragment {
             }
         });
 
+        NumberFormat currencyFormat = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+        currencyFormat.setMaximumFractionDigits(0);
+
         cart = (CartResponse) getArguments().getSerializable("cart");
         account = (AccountInfor) getArguments().getSerializable("account");
         RecyclerView rvCheckoutItems = root.findViewById(R.id.rvCheckoutItems);
         rvCheckoutItems.setLayoutManager(new LinearLayoutManager(getContext()));
         CheckoutAdapter adapter = new CheckoutAdapter(cart.getCartItems());
         rvCheckoutItems.setAdapter(adapter);
-        txtProductTotal.setText("Tổng tiền hàng: " + cart.getTotalPrice() + "VND");
-        txtTotalAmount.setText("Tổng thanh toán: " + cart.getTotalPrice() + "VND");
-        txtTotalBottom.setText("Tổng cộng " + cart.getTotalPrice() + "VND");
+        txtProductTotal.setText("Tổng tiền hàng: " + currencyFormat.format(cart.getTotalPrice()) + "VNĐ");
+        txtTotalAmount.setText("Tổng thanh toán: " + currencyFormat.format(cart.getTotalPrice()) + "VNĐ");
+        txtTotalBottom.setText("Tổng cộng " + currencyFormat.format(cart.getTotalPrice()) + "VNĐ");
         btnPlaceOrder.setOnClickListener(v -> {
             createOrder();
         });
@@ -292,6 +297,27 @@ public class CheckoutFragment extends Fragment {
             public void onResponse(Call<Response<OrderResponse>> call, retrofit2.Response<Response<OrderResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(getContext(), "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
+                    NotificationService notificationService = ApiClient.getAuthenticatedClient(requireContext())
+                            .create(NotificationService.class);
+
+                    String message = "Đơn hàng mới từ " + account.getFullName() + " với ID đơn hàng: #" + response.body().getData().getOrderId() + " đã được tạo. Vui lòng kiểm tra và xác nhận trong hệ thống.";
+                    NotificationRequest notificationRequest = new NotificationRequest(1, message);
+
+                    notificationService.sendNotification(notificationRequest).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("CheckoutFragment", "Admin notified of new order");
+                            } else {
+                                Log.e("CheckoutFragment", "Failed to notify admin: " + response.code());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Log.e("CheckoutFragment", "Error notifying admin", t);
+                        }
+                    });
                     if ("ZaloPay".equals(paymentMethod)) {
                         Intent intent = new Intent(requireContext(), PaymentActivity.class);
                         intent.putExtra("orderId", response.body().getData().getOrderId());

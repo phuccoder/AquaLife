@@ -33,5 +33,8 @@ public interface OrderAPI {
     Call<Response<List<OrderResponse>>> getOrdersById(
             @Path("id") int id
     );
+
+    @POST("api/orders/{id}/pre-cancel")
+    Call<Response<String>> preCancelOrder(@Path("id") int orderId);
 }
 

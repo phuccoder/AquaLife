@@ -21,7 +21,9 @@ import com.example.aqualife.model.Response;
 import com.example.aqualife.network.ApiClient;
 import com.example.aqualife.services.ProductAPI;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +57,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.Checko
 
     static class CheckoutViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct;
-        TextView txtProductName, txtProductVariant, txtProductPrice, txtProductOriginalPrice, txtProductQuantity;
+        TextView txtProductName, txtProductVariant, txtProductPrice, txtProductOriginalPrice, txtProductQuantity, txtRealPrice;
 
         public CheckoutViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +65,8 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.Checko
             txtProductName = itemView.findViewById(R.id.txtProductName);
             txtProductPrice = itemView.findViewById(R.id.txtProductPrice);
             txtProductQuantity = itemView.findViewById(R.id.txtProductQuantity);
+            txtRealPrice = itemView.findViewById(R.id.txtRealPrice);
+
         }
     }
     private void fetchProductDataById(CheckoutViewHolder holder, CartItemResponse item) {
@@ -77,9 +81,12 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.Checko
                 if (response.isSuccessful() && response.body() != null) {
                     Product product = response.body().getData();
 
+                    NumberFormat currencyFormat = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+                    currencyFormat.setMaximumFractionDigits(0); // No decimals
                     holder.txtProductName.setText(product.getProductName());
-                    holder.txtProductPrice.setText("₫" + item.getPrice());
-                    holder.txtProductQuantity.setText(String.valueOf(item.getQuantity()));
+                    holder.txtProductPrice.setText(currencyFormat.format(product.getPrice()) + " VNĐ");
+                    holder.txtProductQuantity.setText(String.valueOf("Số lượng: " + item.getQuantity()));
+                    holder.txtRealPrice.setText("Thành tiền: " + currencyFormat.format(item.getPrice()) + " VNĐ");
 
                     Glide.with(context)
                             .load(product.getImageUrl())
@@ -96,6 +103,8 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.Checko
             }
         });
     }
+
+
     private void handleErrorResponse(Context context, int code) {
         if (code == 401) {
             // Unauthorized - redirect to login

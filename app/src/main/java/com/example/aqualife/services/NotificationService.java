@@ -4,6 +4,7 @@ import com.example.aqualife.payload.request.FCMTokenRequest;
 import com.example.aqualife.payload.request.NotificationRequest;
 import com.example.aqualife.payload.response.FcmTokenResponse;
 import com.example.aqualife.payload.response.NotificationResponse;
+import com.example.aqualife.model.Response;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public interface NotificationService {
     Call<FcmTokenResponse> registerToken(@Body FCMTokenRequest request);
 
     @GET("api/notifications")
-    Call<List<NotificationResponse>> getNotifications(@Query("accountId") int accountId);
+    Call<Response<List<NotificationResponse>>> getNotifications(@Query("accountId") int accountId);
 
     @POST("api/notifications")
     Call<Void> sendNotification(@Body NotificationRequest request);

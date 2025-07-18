@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.aqualife.adapter.NotificationAdapter;
 import com.example.aqualife.payload.response.NotificationResponse;
 import com.example.aqualife.util.NotificationHelper;
+import com.example.aqualife.util.UserSessionManager;
 
 import java.util.List;
 
@@ -18,7 +19,6 @@ public class NotificationActivity extends AppCompatActivity {
     private static final String TAG = "NotificationActivity";
     private RecyclerView recyclerView;
     private NotificationAdapter adapter;
-    private final int ACCOUNT_ID = 1; // Admin account ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,12 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void loadNotifications() {
-        NotificationHelper.getNotifications(this, ACCOUNT_ID, new NotificationHelper.NotificationCallback() {
+        int accountId = getCurrentAccountId();
+        if (accountId == -1) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        NotificationHelper.getNotifications(this, accountId, new NotificationHelper.NotificationCallback() {
             @Override
             public void onSuccess(List<NotificationResponse> notifications) {
                 runOnUiThread(() -> {
@@ -60,6 +65,16 @@ public class NotificationActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private int getCurrentAccountId() {
+        UserSessionManager sessionManager = new UserSessionManager(this);
+        String userIdStr = sessionManager.getUserId();
+        try {
+            return userIdStr != null ? Integer.parseInt(userIdStr) : -1;
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     @Override

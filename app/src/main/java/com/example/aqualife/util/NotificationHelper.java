@@ -111,12 +111,15 @@ public class NotificationHelper {
         ApiClient.getAuthenticatedClient(context)
                 .create(NotificationService.class)
                 .getNotifications(accountId)
-                .enqueue(new Callback<List<NotificationResponse>>() {
+                .enqueue(new retrofit2.Callback<com.example.aqualife.model.Response<List<NotificationResponse>>>() {
                     @Override
-                    public void onResponse(Call<List<NotificationResponse>> call, Response<List<NotificationResponse>> response) {
-                        if (response.isSuccessful()) {
+                    public void onResponse(
+                            Call<com.example.aqualife.model.Response<List<NotificationResponse>>> call,
+                            retrofit2.Response<com.example.aqualife.model.Response<List<NotificationResponse>>> response // <-- Use retrofit2.Response here
+                    ) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
                             Log.d(TAG, "Notifications retrieved successfully");
-                            callback.onSuccess(response.body());
+                            callback.onSuccess(response.body().getData());
                         } else {
                             Log.e(TAG, "Failed to retrieve notifications: " + response.code());
                             callback.onFailure("Failed to retrieve notifications");
@@ -124,7 +127,10 @@ public class NotificationHelper {
                     }
 
                     @Override
-                    public void onFailure(Call<List<NotificationResponse>> call, Throwable t) {
+                    public void onFailure(
+                            Call<com.example.aqualife.model.Response<List<NotificationResponse>>> call,
+                            Throwable t
+                    ) {
                         Log.e(TAG, "Failed to retrieve notifications", t);
                         callback.onFailure(t.getMessage());
                     }

@@ -1,27 +1,28 @@
 package com.example.aqualife.payload.request;
 
 public class NotificationRequest {
-    private String targetAccountId;
-    private NotificationData data;
+    private Integer accountId;
+    private String message;
 
-    public NotificationRequest(String targetAccountId, NotificationData data) {
-        this.targetAccountId = targetAccountId;
-        this.data = data;
+    // Add constructor
+    public NotificationRequest(Integer accountId, String message) {
+        this.accountId = accountId;
+        this.message = message;
     }
 
-    public String getTargetAccountId() {
-        return targetAccountId;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setTargetAccountId(String targetAccountId) {
-        this.targetAccountId = targetAccountId;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
-    public NotificationData getData() {
-        return data;
+    public String getMessage() {
+        return message;
     }
 
-    public void setData(NotificationData data) {
-        this.data = data;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

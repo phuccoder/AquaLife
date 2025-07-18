@@ -7,7 +7,7 @@ public class NotificationResponse {
     private Integer accountId;
     private String message;
     private Boolean isRead;
-    private LocalDateTime createAt;
+    private String createAt;
 
     public NotificationResponse() {}
 
@@ -43,11 +43,11 @@ public class NotificationResponse {
         this.isRead = isRead;
     }
 
-    public LocalDateTime getCreateAt() {
+    public String getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(LocalDateTime createAt) {
+    public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
 }
