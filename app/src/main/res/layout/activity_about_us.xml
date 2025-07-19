@@ -563,7 +563,7 @@
                         android:id="@+id/store_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="📍 123 Đường Hồ Cá, Quận Thủy Sinh\nThành Phố Pleiku, Gia Lai"
+                        android:text="📍 60 Đặng Văn Bi, Bình Thọ, Thủ Đức, Hồ Chí Minh"
                         android:textSize="16sp"
                         android:textColor="@color/text_primary"
                         android:layout_marginBottom="12dp" />
@@ -581,7 +581,7 @@
                         android:id="@+id/store_contact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="📞 (0269) 123-456\n✉️ info@aqualife.vn"
+                        android:text="📞 0967630810\n✉️ info@aqualife.vn"
                         android:textSize="16sp"
                         android:textColor="@color/text_primary" />
 
@@ -601,27 +601,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <View
+                    <org.osmdroid.views.MapView
+                        android:id="@+id/mapView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/deep_sea_blue" />
-                    <!-- Google Maps Fragment Container -->
-<!--                    <fragment-->
-<!--                        android:id="@+id/map_fragment"-->
-<!--                        android:name="com.google.android.gms.maps.SupportMapFragment"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        tools:context=".AboutUsActivity" />-->
+                        android:layout_height="match_parent" />
 
                     <!-- Map Overlay with Store Info -->
                     <LinearLayout
+                        android:id="@+id/map_overlay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_gravity="bottom|start"
                         android:layout_margin="16dp"
                         android:background="@drawable/map_info_background"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -653,28 +649,12 @@
                 android:weightSum="2">
 
                 <Button
-                    android:id="@+id/btn_directions"
-                    android:layout_width="0dp"
-                    android:layout_height="56dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:text="Xem Đường Đi"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:background="@drawable/button_primary_background"
-                    android:drawableStart="@drawable/ic_directions"
-                    android:drawablePadding="8dp"
-                    android:elevation="4dp" />
-
-                <Button
                     android:id="@+id/btn_call_store"
-                    android:layout_width="0dp"
-                    android:layout_height="56dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="0dp"
                     android:text="Gọi Cửa Hàng"
-                    android:textColor="@color/deep_sea_blue"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:background="@drawable/button_secondary_background"

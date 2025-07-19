@@ -93,4 +93,5 @@ dependencies {
 
     implementation("com.google.firebase:firebase-messaging")
     implementation ("com.jakewharton.threetenabp:threetenabp:1.4.6")
+    implementation("org.osmdroid:osmdroid-android:6.1.16")
 }
