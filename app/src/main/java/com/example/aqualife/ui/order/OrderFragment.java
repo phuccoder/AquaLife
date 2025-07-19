@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,12 @@ import com.example.aqualife.network.ApiClient;
 import com.example.aqualife.services.CartAPI;
 import com.example.aqualife.services.OrderAPI;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,6 +38,7 @@ public class OrderFragment extends Fragment {
     private RecyclerView rvOrders;
     private TextView txtNoOrders;
     private AccountInfor account;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -40,12 +48,13 @@ public class OrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_view_order, container, false);
         rvOrders = view.findViewById(R.id.rvOrders);
         txtNoOrders  = view.findViewById(R.id.txtNoOrders);
+        progressBar = view.findViewById(R.id.progressBar);
         fetchAccountData();
-
         return view;
     }
 
     private void fetchOrders() {
+        progressBar.setVisibility(View.VISIBLE);
         OrderAPI orderAPI = ApiClient.getAuthenticatedClient(requireContext())
                 .create(OrderAPI.class);
 
@@ -56,6 +65,21 @@ public class OrderFragment extends Fragment {
                                            retrofit2.Response<Response<List<OrderResponse>>> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             List<OrderResponse> orders = response.body().getData();
+                            progressBar.setVisibility(View.GONE);
+                            Collections.sort(orders, new Comparator<OrderResponse>() {
+                                @Override
+                                public int compare(OrderResponse o1, OrderResponse o2) {
+                                    try {
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+                                        Date d1 = sdf.parse(o1.getOrderDate());
+                                        Date d2 = sdf.parse(o2.getOrderDate());
+                                        return d2.compareTo(d1);
+                                    } catch (ParseException e) {
+                                        return 0;
+                                    }
+                                }
+                            });
+
                             if (orders.isEmpty()) {
                                 txtNoOrders.setVisibility(View.VISIBLE);
                                 rvOrders.setVisibility(View.GONE);

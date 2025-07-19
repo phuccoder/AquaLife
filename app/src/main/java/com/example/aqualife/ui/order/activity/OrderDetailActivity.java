@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +30,9 @@ import com.example.aqualife.model.OrderResponse;
 import com.example.aqualife.model.Response;
 import com.example.aqualife.model.ShippingResponse;
 import com.example.aqualife.network.ApiClient;
+import com.example.aqualife.payload.request.NotificationRequest;
 import com.example.aqualife.services.AddressAPI;
+import com.example.aqualife.services.NotificationService;
 import com.example.aqualife.services.OrderAPI;
 import com.example.aqualife.services.ShippingAPI;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -130,11 +133,15 @@ public class OrderDetailActivity extends AppCompatActivity {
         btnCallSupport.setOnClickListener(v -> callSupport());
     }
 
+
     private void bindOrderData(OrderResponse order) {
         try {
             orderStatus = order.getOrderStatus();
             setOrderStatus(order);
             fetchShippingData(order.getShippingId(), order);
+
+            orderId = String.valueOf(order.getOrderId());
+
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSS", Locale.getDefault());
             SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
             Date date = inputFormat.parse(order.getOrderDate());
@@ -166,6 +173,9 @@ public class OrderDetailActivity extends AppCompatActivity {
             case "DONE":
             case "HOÀN THÀNH":
                 return 4;
+            case "CANCEL":
+            case "ĐÃ HỦY":
+                return 5;
             default:
                 return 0;
         }
@@ -185,6 +195,10 @@ public class OrderDetailActivity extends AppCompatActivity {
             case "PENDING":
             case "CHỜ XÁC NHẬN":
                 displayText = "Đơn hàng chờ xác nhận";
+                break;
+            case "PROCESS":
+            case "ĐÃ XÁC NHẬN":
+                displayText = "Đơn hàng đã xác nhận";
                 break;
             default:
                 displayText = "Đơn hàng đang chờ vận chuyển";
@@ -227,6 +241,10 @@ public class OrderDetailActivity extends AppCompatActivity {
                 note = "Đơn hàng đã hoàn tất. Cảm ơn bạn đã đồng hành cùng AquaLife!";
                 color = getResources().getColor(android.R.color.holo_purple);
                 break;
+            case 5:
+                note = "Đơn hàng đã hủy. Nếu có thắc mắc, vui lòng liên hệ AquaLife để được hỗ trợ.";
+                color = getResources().getColor(android.R.color.holo_red_dark);
+                break;
             default:
                 note = "AquaLife chưa xác định được trạng thái đơn hàng.";
                 color = getResources().getColor(android.R.color.darker_gray);
@@ -252,6 +270,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         btnConfirmCancel.setOnClickListener(v -> {
             int orderIdInt = Integer.parseInt(orderId);
+            // After successful cancel order response
             OrderAPI orderAPI = ApiClient.getAuthenticatedClient(this)
                     .create(OrderAPI.class);
 
@@ -259,8 +278,31 @@ public class OrderDetailActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Response<String>> call, retrofit2.Response<Response<String>> response) {
                     if (response.isSuccessful() && response.body() != null) {
+                        // Notify admin
+                        NotificationService notificationService = ApiClient.getAuthenticatedClient(OrderDetailActivity.this)
+                                .create(NotificationService.class);
+
+                        String message = "Đơn hàng #" + orderId + " đã bị hủy bởi khách hàng.";
+                        NotificationRequest notificationRequest = new NotificationRequest(1, message);
+
+                        notificationService.sendNotification(notificationRequest).enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                                if (response.isSuccessful()) {
+                                    Log.d("OrderDetailActivity", "Admin notified of order cancellation");
+                                } else {
+                                    Log.e("OrderDetailActivity", "Failed to notify admin: " + response.code());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Log.e("OrderDetailActivity", "Error notifying admin", t);
+                            }
+                        });
+
                         Toast.makeText(OrderDetailActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        finish(); // Optionally close activity
+                        finish();
                     } else {
                         Toast.makeText(OrderDetailActivity.this, "Failed to cancel order", Toast.LENGTH_SHORT).show();
                     }

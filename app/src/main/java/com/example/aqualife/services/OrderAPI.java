@@ -36,5 +36,8 @@ public interface OrderAPI {
 
     @POST("api/orders/{id}/pre-cancel")
     Call<Response<String>> preCancelOrder(@Path("id") int orderId);
+
+    @POST("api/orders/{id}/confirm")
+    Call<Response<OrderResponse>> confirmOrder(@Path("id") int orderId);
 }
 
