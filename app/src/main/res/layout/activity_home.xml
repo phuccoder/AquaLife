@@ -516,4 +516,17 @@
         </LinearLayout>
     </ScrollView>
 
+    <ImageView
+        android:id="@+id/fabChatGif"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="24dp"
+        android:scaleType="centerInside"
+        android:padding="12dp"
+        android:background="@drawable/fab_background"
+        android:contentDescription="Chat"
+        android:layout_gravity="bottom|end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

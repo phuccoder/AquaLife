@@ -17,7 +17,7 @@ import retrofit2.http.Query;
 public interface NotificationService {
 
     String CHANNEL_ID = "aquaLifeStoreChannel";
-    String CHANNEL_NAME = "AquaLife Notifications";
+    String CHANNEL_NAME = "AquaLife Store thông báo đến bạn";
     String CHANNEL_DESCRIPTION = "Notifications for AquaLife Store";
 
     @POST("api/fcm/token")

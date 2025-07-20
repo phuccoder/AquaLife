@@ -33,6 +33,8 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.example.aqualife.ActivityChatMessage;
 import com.example.aqualife.LoginActivity;
 import com.example.aqualife.MainActivity;
 import com.example.aqualife.NotificationActivity;
@@ -51,6 +53,7 @@ import com.example.aqualife.services.CartAPI;
 import com.example.aqualife.services.ProductAPI;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -157,6 +160,12 @@ public class HomeFragment extends Fragment {
         tankViewMoreBtn = root.findViewById(R.id.btnViewMoreTank);
         foodViewMoreBtn = root.findViewById(R.id.btnViewMoreFood);
         medicineViewMoreBtn = root.findViewById(R.id.btnViewMoreMedicine);
+        ImageView fabChatGif = root.findViewById(R.id.fabChatGif);
+        Glide.with(this)
+                .asGif()
+                .load(R.drawable.ic_chat)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(fabChatGif);
     }
 
     private void checkLoginStatus() {
@@ -515,6 +524,13 @@ public class HomeFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+        ImageView fabChatGif = root.findViewById(R.id.fabChatGif);
+        fabChatGif.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ActivityChatMessage.class);
+            startActivity(intent);
+        });
+
     }
 
     private void setupSearchFunctionality() {

@@ -18,6 +18,7 @@ public class FirebaseStorageHelper {
     private static final String FISH_IMAGES_PATH = "fish_images/";
     private static final String FOOD_IMAGES_PATH = "food_images/";
     private static final String AVATAR_IMAGES_PATH = "avatar_images/";
+    private static final String CHAT_FILES_PATH = "chat_files/";
 
     // Replace with your actual Firebase Storage bucket URL
     private static final String STORAGE_BUCKET_URL = "gs://aqualife-ba90a.firebasestorage.app";
@@ -196,6 +197,26 @@ public class FirebaseStorageHelper {
             listener.onDeleteFailure("Invalid image URL: " + e.getMessage());
         }
     }
+
+    public void uploadFile(Uri fileUri, OnImageUploadListener listener) {
+        String fileName = "file_" + UUID.randomUUID();
+
+        if (fileUri == null) {
+            listener.onUploadFailure("File URI is null");
+            return;
+        }
+
+        StorageReference fileRef = storageRef.child(CHAT_FILES_PATH + fileName);
+
+        listener.onUploadStart();
+
+        fileRef.putFile(fileUri)
+                .addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    listener.onUploadSuccess(uri.toString());
+                }).addOnFailureListener(e -> listener.onUploadFailure(e.getMessage())))
+                .addOnFailureListener(e -> listener.onUploadFailure(e.getMessage()));
+    }
+
 
     public interface OnImageDeleteListener {
         void onDeleteSuccess();

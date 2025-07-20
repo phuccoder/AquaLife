@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Ocean gradient background -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="135"
+                android:startColor="#E3F2FD"
+                android:centerColor="#F1F8FE"
+                android:endColor="#E8F5E8" />
+        </shape>
+    </item>
+
+    <!-- Subtle wave pattern overlay -->
+    <item android:top="100dp">
+        <shape android:shape="oval">
+            <solid android:color="#10039BE5" />
+        </shape>
+    </item>
+
+    <item android:top="200dp" android:right="50dp">
+        <shape android:shape="oval">
+            <solid android:color="#0800BCD4" />
+        </shape>
+    </item>
+
+    <item android:bottom="150dp" android:left="30dp">
+        <shape android:shape="oval">
+            <solid android:color="#054CAF50" />
+        </shape>
+    </item>
+</layer-list>

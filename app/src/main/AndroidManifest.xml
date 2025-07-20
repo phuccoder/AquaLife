@@ -41,6 +41,7 @@
             </intent-filter>
         </service>
 
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -97,6 +98,10 @@
 
         <activity
             android:name=".NotificationActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".ActivityChatMessage"
             android:exported="true" />
 
         <activity android:name=".ui.order.activity.OrderDetailActivity" />

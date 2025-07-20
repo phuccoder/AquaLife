@@ -94,4 +94,8 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging")
     implementation ("com.jakewharton.threetenabp:threetenabp:1.4.6")
     implementation("org.osmdroid:osmdroid-android:6.1.16")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation ("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
+
 }

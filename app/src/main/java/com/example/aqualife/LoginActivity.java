@@ -41,7 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         initializeViews();
         setupListeners();
         authService = ApiClient.getClient().create(AuthService.class);
-        fetchAndSaveAccountId();
     }
 
     private void initializeViews() {
@@ -185,6 +184,23 @@ public class LoginActivity extends AppCompatActivity {
     private void handleSuccessfulLogin(SignInResponse response) {
         // Save user data and token to SharedPreferences
         saveUserSession(response);
+
+        // Fetch and save account ID after login
+        AccountService accountService = ApiClient.getAuthenticatedClient(this).create(AccountService.class);
+        accountService.getCurrentAccount().enqueue(new Callback<com.example.aqualife.model.Response<AccountResponse>>() {
+            @Override
+            public void onResponse(Call<com.example.aqualife.model.Response<AccountResponse>> call, Response<com.example.aqualife.model.Response<AccountResponse>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                    int accountId = response.body().getData().getAccountId();
+                    UserSessionManager sessionManager = new UserSessionManager(LoginActivity.this);
+                    sessionManager.saveAccountId(accountId);
+                    Log.d(TAG, "Account ID saved: " + accountId);
+                }
+            }
+            @Override
+            public void onFailure(Call<com.example.aqualife.model.Response<AccountResponse>> call, Throwable t) {
+            }
+        });
 
         // Register FCM token after successful login
         Log.d(TAG, "Registering FCM token after login");
